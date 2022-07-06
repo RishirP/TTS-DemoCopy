@@ -57,6 +57,7 @@ function populateVoiceList() {
     voiceSelect.appendChild(option);
   }
   voiceSelect.selectedIndex = selectedIndex;
+  
 }
 
 populateVoiceList();
@@ -138,6 +139,9 @@ if (voices[i].name === selectedOption) {
 }
     utterance.pitch = pitch.value;
     utterance.rate = rate.value;
+    utterance.voice = speechSynthesis.getVoices().filter(function(voice) { 
+      return voice.name == 'Google UK English Male'; 
+})[0];
     synth.speak(utterance);
   })
 })
