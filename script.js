@@ -129,19 +129,30 @@ rate.onchange = function () {
 };
 const selectedOption =
 voiceSelect.selectedOptions[0].getAttribute("data-name");
+// For remote voices 
 
 for (let i = 0; i < voices.length; i++) {
 if (voices[i].name === selectedOption) {
   utterance.voice = voices[i];
-  console.log(voices[i].lang)
+  console.log(speechSynthesis.getVoices(),voices[i].lang)
   break;
 }
 }
     utterance.pitch = pitch.value;
     utterance.rate = rate.value;
-    utterance.voice = speechSynthesis.getVoices().filter(function(voice) { 
-      return voice.name == 'Google UK English Male'; 
-})[0];
-    synth.speak(utterance);
+//     utterance.voice = speechSynthesis.getVoices().filter(function(voice) { 
+//       return voice.name == 'Google UK English Male'; 
+// })[0];
+  console.log(utterance.voice.name, '+', + utterance.voice.voiceURI, '+' ,utterance.lang, '+' ,utterance.voice.localService)
+  // let voiceObject = speechSynthesis.speechSynthesisVoiceInstance
+  // console.log(voiceObject)
+  // voiceObject.localService = true
+  // utterance.voice.name, utterance.voice.voiceURI, utterance.voice.lang == 'Google US English'
+  // utterance.voice = voices.filter(function(voice) { return voice.name == 'Google US English'; })[0];
+  // utterance.voice.localService == true
+  utterance.onmark = function(event){
+    console.log('working')
+  }  
+  synth.speak(utterance);
   })
 })
