@@ -13,3 +13,9 @@
 - [Chrome source code only jsons](https://chromium.googlesource.com/chromium/chromium/+/3d79ca55eb86e0f8733585beaece851e961ac769/chrome/common/extensions/api/)
 - [Using chrome TTS](https://stackoverflow.com/questions/25641521/using-chrome-text-to-speech-in-a-chrome-extension)
 - [Youtube video explaining how to set it up](https://www.youtube.com/watch?v=5KL_ccQwAuo)
+
+---
+
+Plan of actions: 
+Create a manifest json file to add the script into and write [permissions: tts]
+Use chrome.tts.speak
