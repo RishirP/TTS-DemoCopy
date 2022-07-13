@@ -25,7 +25,7 @@
 ### Android
 - [Android's Text To Speech](https://developer.android.com/reference/android/speech/tts/package-summary)
 - [Stack Overflow TTS Example with Java](https://stackoverflow.com/questions/3058919/text-to-speechtts-android)
-- [ Example Getting Started](https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html How to use TTS)
+- [Example Getting Started](https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html How to use TTS)
 
 *This library just sends the message to browser Engine*
 
