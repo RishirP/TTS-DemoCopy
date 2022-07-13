@@ -19,15 +19,18 @@
 - [Using chrome TTS](https://stackoverflow.com/questions/25641521/using-chrome-text-to-speech-in-a-chrome-extension)
 - [Youtube video explaining how to set it up](https://www.youtube.com/watch?v=5KL_ccQwAuo)
 - [Chromium's readme about tts](https://chromium.googlesource.com/chromium/src.git/+/refs/heads/lkgr-ios-internal/docs/accessibility/tts.md#text-to-speech-in-chrome-and-chrome-os)
+*Chrome uses the same Text to Speech Engine as Web Speech API*
 
 ### Android
 - [Android's Text To Speech](https://developer.android.com/reference/android/speech/tts/package-summary)
 - [Stack Overflow TTS Example with Java](https://stackoverflow.com/questions/3058919/text-to-speechtts-android)
 - [ Example Getting Started](https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html How to use TTS)
+*This library just sends the message to browser Engine
 
 ### Google Cloud TTS 
 -[Introduction](https://cloud.google.com/text-to-speech)
 - [Stack Overflow of using Google Cloud TTS](https://stackoverflow.com/questions/15653145/using-google-text-to-speech-in-javascript)
+Really might be the best option (Just after 5 million character's are spoken it is not free)
 ---
 
 Plan of actions: 
