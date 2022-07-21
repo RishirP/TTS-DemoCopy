@@ -5,18 +5,7 @@ From [StackOverflow](https://stackoverflow.com/questions/40820177/what-is-the-di
 
 "Cloud Speech API" is the only one converting speech to text. All the others convert text to speech.
 
-"Chrome TTS" is for the Chrome browser, "Android TTS" is the API to use text-to-speech in Android apps and "Google TTS" is a TTS engine which can be used via the "Android TTS" API.
-
-Ultimately I want to figure out what engine is behind "Okay Google", and see whether that technology exists off the cloud.
-
-Then have a look at the SpeechRecognizer documentation.
-
-The SpeechRecognizer documentation says:
-
-The implementation of this API is likely to stream audio to remote servers to perform speech recognition. As such this API is not intended to be used for continuous recognition, which would consume a significant amount of battery and bandwidth.
-
-So it might still require and use the internet access and isn't completely "off the cloud".    
-
+"Chrome TTS" is for the Chrome browser, "Android TTS" is the API to use text-to-speech in Android apps and "Google TTS" is a TTS engine which can be used via the "Android TTS" API
 
 
 ## Points moving forward
