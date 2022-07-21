@@ -1,13 +1,34 @@
 # TTS-Demo2
 
+## Notes about TTS 
+From [StackOverflow](https://stackoverflow.com/questions/40820177/what-is-the-difference-between-chrome-tts-google-tts-cloud-speech-api-and-and)
+
+"Cloud Speech API" is the only one converting speech to text. All the others convert text to speech.
+
+"Chrome TTS" is for the Chrome browser, "Android TTS" is the API to use text-to-speech in Android apps and "Google TTS" is a TTS engine which can be used via the "Android TTS" API.
+
+Ultimately I want to figure out what engine is behind "Okay Google", and see whether that technology exists off the cloud.
+
+Then have a look at the SpeechRecognizer documentation.
+
+The SpeechRecognizer documentation says:
+
+The implementation of this API is likely to stream audio to remote servers to perform speech recognition. As such this API is not intended to be used for continuous recognition, which would consume a significant amount of battery and bandwidth.
+
+So it might still require and use the internet access and isn't completely "off the cloud".    
+
+
+
 ## Points moving forward
 - Main Problem 
+  - ** Android chrome does not have the default listed voices **
+      WEB SPEECH API WILL NOT WORK
   - Current Speech has a long break during one of the question.... can we refactor the code to make it better? But it still does not sound human enough.
   (_Was able to figure out the long pause at the end of every question was due to a line break that I had on my code editor_)
   - Steps toward a solution
-    - Use a different browser engine, googleTTS, or use onmark boundaries
-    - will you be able to use a chrome extensions and add to it?  
-    - Use Android Studio?  
+    - Use Android TTS, googleTTS, or use onmark boundaries (won't work)
+    - will you be able to use a chrome extensions and add to it? (won't work)  
+    - Use Android Studio? (Really might be best option) 
 
 - Issues at hand are it is difficult to find code examples for TTS on chrome, not familiar with Java, and googleTTS is free up untill 4 million characters 
 
