@@ -1,0 +1,23 @@
+{
+  "name": "tts-democopy",
+  "version": "1.0.0",
+  "description": "From [StackOverflow](https://stackoverflow.com/questions/40820177/what-is-the-difference-between-chrome-tts-google-tts-cloud-speech-api-and-and)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-cross23/TTS-DemoCopy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt-cross23/TTS-DemoCopy/issues"
+  },
+  "homepage": "https://github.com/matt-cross23/TTS-DemoCopy#readme",
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^4.0.0"
+  }
+}
