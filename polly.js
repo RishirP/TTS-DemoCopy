@@ -15,7 +15,8 @@ Running the code:
 Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html.
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
-// snippet-start:[Polly.JavaScript.BrowserExample.configV3]
+// snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
+import IDENTITY_POOL_ID  from '.env'
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import {
     fromCognitoIdentityPool,
@@ -25,10 +26,10 @@ import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
 // Create the Polly service client, assigning your credentials
 const client = new Polly({
-    region: "REGION",
+    region: "us-east-1",
     credentials: fromCognitoIdentityPool({
-        client: new CognitoIdentityClient({ region: "REGION" }),
-        identityPoolId: "IDENTITY_POOL_ID" // IDENTITY_POOL_ID
+        client: new CognitoIdentityClient({ region: "us-east-1" }),
+        identityPoolId: IDENTITY_POOL_ID // IDENTITY_POOL_ID
     }),
 });
 
