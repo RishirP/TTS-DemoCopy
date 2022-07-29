@@ -1,7 +1,12 @@
 # Important Guides and Documentation to Follow
 - [How to use a Browser Script](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
 
+
 -[Amazon Polly JavaScript SDK v3 code examples](https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/polly/README.md)
+
+-Find examples and how to from [here](https://github.com/aws-samples?q=polly&type=&language)
+- Try and work on the browser script
+
 
 
 ### Notes and points to consider before development
@@ -19,6 +24,7 @@
     var end = pollyVoiceSentence.end
     let voiceRange = NSRange(location: start, length: end - start)
     print("RANGE: \(voiceRange) - Word: \(pollyVoiceSentence.value)")   
+[Speech marks](https://docs.aws.amazon.com/polly/latest/dg/speechmarkexamples.html)
 
 ### Once you have full functionality
 - How to upload audio recording using amazon polly to Amazon S3 [Here](https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/polly/general-examples/src/polly_synthesize_to_s3.js)
