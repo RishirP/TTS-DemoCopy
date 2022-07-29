@@ -7,6 +7,7 @@
 // drop down of voices and sliding scale for rate globally for Demo 
 // Read and highlight individually question and once done reading alert const t0 = performance.now();
 console.log("TTS Script connected");
+
 let result = [];
 let synth = window.speechSynthesis;
 // window.speechSynthesis.onvoiceschanged = () => {
