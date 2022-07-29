@@ -16,7 +16,6 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
-import IDENTITY_POOL_ID  from '.env'
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import {
     fromCognitoIdentityPool,
@@ -29,7 +28,7 @@ const client = new Polly({
     region: "us-east-1",
     credentials: fromCognitoIdentityPool({
         client: new CognitoIdentityClient({ region: "us-east-1" }),
-        identityPoolId: IDENTITY_POOL_ID // IDENTITY_POOL_ID
+        identityPoolId: 'us-east-1:44351522-129c-47a3-bf7c-ee1cbaf383dd' // IDENTITY_POOL_ID
     }),
 });
 
