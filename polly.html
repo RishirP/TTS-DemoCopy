@@ -16,13 +16,13 @@
     </audio>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.410.0.min.js"></script>
     <script type="text/javascript">
-
+      console.log('html script working')
         // Initialize the Amazon Cognito credentials provider
         AWS.config.region = 'us-east-1';
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'us-east-1:44351522-129c-47a3-bf7c-ee1cbaf383dd'});
 
         // Function invoked by button click
-        function speakText() {
+        function speakText(data) {
             // Create the JSON parameters for getSynthesizeSpeechUrl
             var speechParams = {
                 OutputFormat: "mp3",
@@ -32,7 +32,6 @@
                 VoiceId: "Matthew"
             };
             speechParams.Text = document.getElementById("textEntry").value;
-
             // Create the Polly service object and presigner object
             var polly = new AWS.Polly({apiVersion: '2016-06-10'});
             var signer = new AWS.Polly.Presigner(speechParams, polly)
@@ -45,8 +44,11 @@
                 document.getElementById('audioSource').src = url;
                 document.getElementById('audioPlayback').load();
                 document.getElementById('result').innerHTML = "Speech ready to play.";
+                console.log(data.ContentType); 
+
             }
           });
+          
         }
     </script>
   </body>
