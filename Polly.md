@@ -24,7 +24,10 @@
 - How to upload audio recording using amazon polly to Amazon S3 [Here](https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/polly/general-examples/src/polly_synthesize_to_s3.js)
 
 #### Questions and concerns
-Will a script tap work on the tablet or should I develop with android?
+Will a script tap work on the tablet?
 
-This current demo uses aws-sdk V2, but V3 is the most recent version. V3 example needs Amazon S3 
+This current demo uses aws-sdk V2, but V3 is the most recent version. V3 example needs Amazon S3?
+
+Should we store the audio files?
+
 
