@@ -16,15 +16,16 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
-import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
-import {
-    fromCognitoIdentityPool,
-} from "@aws-sdk/credential-provider-cognito-identity";
-import { Polly } from "@aws-sdk/client-polly";
-import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
+console.log('polly.js is connected')
+const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
+// import {
+//     fromCognitoIdentityPool,
+// } from "@aws-sdk/credential-provider-cognito-identity";
+// import { Polly } from "@aws-sdk/client-polly";
+// import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
 // Create the Polly service client, assigning your credentials
-const client = new Polly({
+const client = new PollyClient({
     region: "us-east-1",
     credentials: fromCognitoIdentityPool({
         client: new CognitoIdentityClient({ region: "us-east-1" }),
@@ -38,11 +39,12 @@ const speechParams = {
     SampleRate: "1600", // For example, '16000
     Text: "", // The 'speakText' function supplies this value
     TextType: "text", // For example, "text"
-    VoiceId: "Matthew" // For example, "Matthew"
+    VoiceId: "Matthew", // For example, "Matthew"
+    SpeechMarkTypes:['viseme']
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
-const speakText = async () => {
+const speakText = async (data) => {
     // Update the Text parameter with the text entered by the user
     speechParams.Text = document.getElementById("textEntry").value;
     try{
@@ -58,6 +60,7 @@ const speakText = async () => {
         console.log("Error", err);
         document.getElementById('result').innerHTML = err;
     }
+    console.log(data.ContentType); 
 };
 // Expose the function to the browser
 window.speakText = speakText;
