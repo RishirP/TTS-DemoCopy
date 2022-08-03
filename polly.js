@@ -16,6 +16,7 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
+console.log('polly.js is connected')
 const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
 // import {
 //     fromCognitoIdentityPool,
