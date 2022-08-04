@@ -21,6 +21,21 @@
 
 
 ### Highlighting
+Pseudo Code to develop
+- Polly can return a text file of the speech and the word boundaries in json format, giving the start, end and start time byte as the word boundaries. Also gives a time when the word is spoken and when the word ends. This would allow you to use a time function to highlight the word. Using the bytes to identify the word on the html.
+Thoughts and Concerns 
+- We have a time where the word begins in the audio stream but how do we know when it ends?
+Right before the other one begins!! This function should be called HighlightRangeTime. You may be able to use OnRange (see if you can use time for this method).  
+
+For example, Amazon Polly generates the following word speech mark object from the text "Mary had a little lamb":
+{"time":373,"type":"word","start":5,"end":8,"value":"had"}
+The described word ("had") begins 373 milliseconds after the audio stream begins, and starts at byte 5 and ends at byte 8 of the input text.
+
+Steps to complete this TTS Highlight Service
+- Send the text to polly and have it read the assessment based off read blocks => closest read block on the page will be sent as a text parameter for polly. 
+- Once this happens youll be able to start highlighting. 
+
+
     let start = pollyVoiceSentence.start
     var end = pollyVoiceSentence.end
     let voiceRange = NSRange(location: start, length: end - start)

@@ -16,12 +16,18 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
+<<<<<<< HEAD
 const { PollyClient, DeleteLexiconCommand, Polly } = require("@aws-sdk/client-polly");
+=======
+console.log('polly.js is connected')
+// const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
+>>>>>>> f5186ccab316065e32a7447a4a7aa861dcd0be0d
 // import {
 //     fromCognitoIdentityPool,
 // } from "@aws-sdk/credential-provider-cognito-identity";
 // import { Polly } from "@aws-sdk/client-polly";
 // import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
+import { PollyClient, DeleteLexiconCommand } from "@aws-sdk/client-polly";
 
 // Create the Polly service client, assigning your credentials
 const client = new PollyClient({
@@ -32,6 +38,7 @@ const client = new PollyClient({
     }),
 });
 
+// Keep
 // Set the parameters
 const speechParams = {
     OutputFormat: "mp3", // For example, 'mp3'
@@ -41,6 +48,7 @@ const speechParams = {
     VoiceId: "Matthew", // For example, "Matthew"
     SpeechMarkTypes:['viseme', 'boundary']
 };
+// Keep
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
 const speakText = async (data) => {
@@ -63,6 +71,6 @@ const speakText = async (data) => {
 };
 console.log(client)
 // Expose the function to the browser
-window.speakText = speakText;
+// window.speakText = speakText;
 // snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
 // snippet-end:[Polly.JavaScript.BrowserExample.completeV3]
