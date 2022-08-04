@@ -2774,6 +2774,16 @@
                     <div read-block-container class="question assessment-cover-page">
                         <span class="grey" style="font-size:14px;">Assessment <b style="color:#FF5900;">1 of
                                 10</b></span>
+                                <div id="textToSynth">
+                                    <input autofocus size="23" type="text" id="textEntry" value="It's very good to meet you."/>
+                                    <button class="btn default" onClick="speakText()">Synthesize</button>
+                                    <p id="result">Enter text above then click Synthesize</p>
+                                  </div>
+                                  <audio id="audioPlayback" controls>
+                                    <source id="audioSource" type="audio/mp3" src="">
+                                  </audio>
+                                  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.410.0.min.js"></script>
+                              
                         <h2>Let's Get Started!</h2>
                         <button play type="button" class="btn1">Play</button>
                         <button pause type="button" class="btn1 btn-warning mt-5 me-3">Pause</button>
@@ -3730,12 +3740,41 @@
             document.onselectstart = function () { return false; } //disable android chrome "touch to search" by disabling text select
         }
     </script>
-
-
-
-
-
-
+    <script type="text/javascript">
+        console.log('html script working')
+          // Initialize the Amazon Cognito credentials provider
+          AWS.config.region = 'us-east-1';
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'us-east-1:44351522-129c-47a3-bf7c-ee1cbaf383dd'});
+  
+          // Function invoked by button click
+          function speakText(data) {
+              // Create the JSON parameters for getSynthesizeSpeechUrl
+              var speechParams = {
+                  OutputFormat: "mp3",
+                  SampleRate: "16000",
+                  Text: "",
+                  TextType: "text",
+                  VoiceId: "Matthew"
+              };
+              speechParams.Text = document.getElementById("textEntry").value;
+              // Create the Polly service object and presigner object
+              var polly = new AWS.Polly({apiVersion: '2016-06-10'});
+              var signer = new AWS.Polly.Presigner(speechParams, polly)
+  
+              // Create presigned URL of synthesized speech file
+              signer.getSynthesizeSpeechUrl(speechParams, function(error, url) {
+              if (error) {
+                  document.getElementById('result').innerHTML = error;
+              } else {
+                  document.getElementById('audioSource').src = url;
+                  document.getElementById('audioPlayback').load();
+                  document.getElementById('result').innerHTML = "Speech ready to play.";
+  
+              }
+            });
+            
+          }
+      </script>
 </body>
 
 </html>

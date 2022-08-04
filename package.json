@@ -1,7 +1,7 @@
 {
   "name": "tts-democopy",
   "version": "1.0.0",
-  "description": "From [StackOverflow](https://stackoverflow.com/questions/40820177/what-is-the-difference-between-chrome-tts-google-tts-cloud-speech-api-and-and)",
+  "description": "TTS App",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,7 +23,9 @@
     "@aws-sdk/client-polly": "^3.138.0",
     "@aws-sdk/credential-provider-cognito-identity": "^3.137.0",
     "@aws-sdk/polly-request-presigner": "^3.138.0",
-    "@google-cloud/text-to-speech": "^4.0.0"
+    "@google-cloud/text-to-speech": "^4.0.0",
+    "@aws-sdk/client-s3": "^3.32.0"
+
   },
   "devDependencies": {
     "path-browserify": "^1.0.1",

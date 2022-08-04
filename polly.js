@@ -17,12 +17,13 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
 console.log('polly.js is connected')
-const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
+// const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
 // import {
 //     fromCognitoIdentityPool,
 // } from "@aws-sdk/credential-provider-cognito-identity";
 // import { Polly } from "@aws-sdk/client-polly";
 // import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
+import { PollyClient, DeleteLexiconCommand } from "@aws-sdk/client-polly";
 
 // Create the Polly service client, assigning your credentials
 const client = new PollyClient({
@@ -33,6 +34,7 @@ const client = new PollyClient({
     }),
 });
 
+// Keep
 // Set the parameters
 const speechParams = {
     OutputFormat: "mp3", // For example, 'mp3'
@@ -42,27 +44,29 @@ const speechParams = {
     VoiceId: "Matthew", // For example, "Matthew"
     SpeechMarkTypes:['viseme']
 };
+// Keep
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
-const speakText = async (data) => {
-    // Update the Text parameter with the text entered by the user
-    speechParams.Text = document.getElementById("textEntry").value;
-    try{
-        let url = await getSynthesizeSpeechUrl({
-            client, params: speechParams
-        });
-        console.log(url);
-        // Load the URL of the voice recording into the browser
-        document.getElementById('audioSource').src = url;
-        document.getElementById('audioPlayback').load();
-        document.getElementById('result').innerHTML = "Speech ready to play.";
-    } catch (err) {
-        console.log("Error", err);
-        document.getElementById('result').innerHTML = err;
-    }
-    console.log(data.ContentType); 
-};
+// const speakText = async (data) => {
+//     // Update the Text parameter with the text entered by the user
+//     speechParams.Text = document.getElementById("textEntry").value;
+//     try{
+//         let url = await getSynthesizeSpeechUrl({
+//             client, params: speechParams
+//         });
+//         console.log(url);
+//         // Load the URL of the voice recording into the browser
+//         document.getElementById('audioSource').src = url;
+//         document.getElementById('audioPlayback').load();
+//         document.getElementById('result').innerHTML = "Speech ready to play.";
+//     } catch (err) {
+//         console.log("Error", err);
+//         document.getElementById('result').innerHTML = err;
+//     }
+//     console.log(data.ContentType); 
+// };
+// Keep 
 // Expose the function to the browser
-window.speakText = speakText;
+// window.speakText = speakText;
 // snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
 // snippet-end:[Polly.JavaScript.BrowserExample.completeV3]
