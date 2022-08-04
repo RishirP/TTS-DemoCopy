@@ -22,7 +22,7 @@ Steps to complete this TTS Highlight Service
 - Possible solutions: Fix this by turning the polly client Object into a fetch get request with preflight header? Seems to difficult and may not work in production.
 - **Read amazon's how to add cors headers and follow that**        
 
--Immediate problems
+### Immediate problems
 -When changing parameters for outFile: UnexpectedParameter: Unexpected key 'outFile' found in params
 -Thinking that I may have to use a fetch request so I can manually configure how I want the response. [Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
 
