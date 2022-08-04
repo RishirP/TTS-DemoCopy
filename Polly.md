@@ -25,6 +25,7 @@ Steps to complete this TTS Highlight Service
 ### Immediate problems
 -When changing parameters for outFile: UnexpectedParameter: Unexpected key 'outFile' found in params
 -Thinking that I may have to use a fetch request so I can manually configure how I want the response. [Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
+https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Polly.html
 
 ### Important Guides and Documentation to Follow
 - [How to use a Browser Script](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
