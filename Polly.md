@@ -1,4 +1,29 @@
-# Important Guides and Documentation to Follow
+## Highlighting
+Pseudo Code to develop
+- Polly can return a text file of the speech and the word boundaries in json format, giving the start, end and start time byte as the word boundaries. Also gives a time when the word is spoken and when the word ends. This would allow you to use a time function to highlight the word. Using the bytes to identify the word on the html.
+Thoughts and Concerns 
+- We have a time where the word begins in the audio stream but how do we know when it ends?
+Right before the other one begins!! This function should be called HighlightRangeTime. You may be able to use OnRange (see if you can use time for this method).  
+
+For example, Amazon Polly generates the following word speech mark object from the text "Mary had a little lamb":
+{"time":373,"type":"word","start":5,"end":8,"value":"had"}
+The described word ("had") begins 373 milliseconds after the audio stream begins, and starts at byte 5 and ends at byte 8 of the input text.
+
+Steps to complete this TTS Highlight Service
+- Send the text to polly and have it read the assessment based off read blocks => closest read block on the page will be sent as a text parameter for polly. 
+- Once this happens youll be able to start highlighting.
+
+## Obstacles and Difficulties already faced
+- Attempting to use a browser script, ends with a 403 error (forbidden) and on the network tab that get request is denied.
+- I don't know if it is a cors issue or a problem with my amazon credentials (Have double checked that is not issue, will check again), will find the error again and attempt to debug. Now attempting to reproduce issue. 
+- If it is cors, maybe will we have to use a fetch request and add in the header for cross-origin-resource-sharing. [Here are some documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+- ![Amazon on CORS](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/images/cors-overview.png)
+- Cors could be the 403 error also, the application is requesting polly to return a speech response yet has not been authorized so the request is denied. 
+- Possible solutions: Fix this by turning the polly client Object into a fetch get request with preflight header? Seems to difficult and may not work in production.
+- **Read amazon's how to add cors headers and follow that**        
+
+
+### Important Guides and Documentation to Follow
 - [How to use a Browser Script](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
 
 
@@ -19,20 +44,6 @@
  ### The easiest way to play that audio in a browser is to have Amazon Polly make the audio available at a presigned URL you can then set as the src attribute of the <audio> element in the webpage.  - from [amazon docs](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
 - Make sure aws CLI is installed to make verification easier but plan to use environment variables
 
-### Highlighting
-Pseudo Code to develop
-- Polly can return a text file of the speech and the word boundaries in json format, giving the start, end and start time byte as the word boundaries. Also gives a time when the word is spoken and when the word ends. This would allow you to use a time function to highlight the word. Using the bytes to identify the word on the html.
-Thoughts and Concerns 
-- We have a time where the word begins in the audio stream but how do we know when it ends?
-Right before the other one begins!! This function should be called HighlightRangeTime. You may be able to use OnRange (see if you can use time for this method).  
-
-For example, Amazon Polly generates the following word speech mark object from the text "Mary had a little lamb":
-{"time":373,"type":"word","start":5,"end":8,"value":"had"}
-The described word ("had") begins 373 milliseconds after the audio stream begins, and starts at byte 5 and ends at byte 8 of the input text.
-
-Steps to complete this TTS Highlight Service
-- Send the text to polly and have it read the assessment based off read blocks => closest read block on the page will be sent as a text parameter for polly. 
-- Once this happens youll be able to start highlighting. 
 
 
     let start = pollyVoiceSentence.start
