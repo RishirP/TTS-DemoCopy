@@ -13,7 +13,7 @@ Steps to complete this TTS Highlight Service
 - Send the text to polly and have it read the assessment based off read blocks => closest read block on the page will be sent as a text parameter for polly. 
 - Once this happens youll be able to start highlighting.
 
-## Obstacles and Difficulties already faced
+### Obstacles and Difficulties already faced
 - Attempting to use a browser script, ends with a 403 error (forbidden) and on the network tab that get request is denied.
 - I don't know if it is a cors issue or a problem with my amazon credentials (Have double checked that is not issue, will check again), will find the error again and attempt to debug. Now attempting to reproduce issue. 
 - If it is cors, maybe will we have to use a fetch request and add in the header for cross-origin-resource-sharing. [Here are some documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
@@ -22,6 +22,9 @@ Steps to complete this TTS Highlight Service
 - Possible solutions: Fix this by turning the polly client Object into a fetch get request with preflight header? Seems to difficult and may not work in production.
 - **Read amazon's how to add cors headers and follow that**        
 
+-Immediate problems
+-When changing parameters for outFile: UnexpectedParameter: Unexpected key 'outFile' found in params
+-Thinking that I may have to use a fetch request so I can manually configure how I want the response. [Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
 
 ### Important Guides and Documentation to Follow
 - [How to use a Browser Script](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
@@ -31,6 +34,7 @@ Steps to complete this TTS Highlight Service
 
 -Find examples and how to from [here](https://github.com/aws-samples?q=polly&type=&language)
 - Try and work on the browser script
+
 
 
 
