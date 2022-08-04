@@ -19,12 +19,14 @@
  ### The easiest way to play that audio in a browser is to have Amazon Polly make the audio available at a presigned URL you can then set as the src attribute of the <audio> element in the webpage.  - from [amazon docs](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
 - Make sure aws CLI is installed to make verification easier but plan to use environment variables
 
+
 ### Highlighting
     let start = pollyVoiceSentence.start
     var end = pollyVoiceSentence.end
     let voiceRange = NSRange(location: start, length: end - start)
     print("RANGE: \(voiceRange) - Word: \(pollyVoiceSentence.value)")   
 [Speech marks](https://docs.aws.amazon.com/polly/latest/dg/speechmarkexamples.html)
+'The challenge is that Amazon gives you the byte position, not the character position, of the word' - From [TTS amazon polly](https://github.com/smch/tts/blob/master/amazon-polly/index.html) from user @smch
 
 ### Once you have full functionality
 - How to upload audio recording using amazon polly to Amazon S3 [Here](https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/polly/general-examples/src/polly_synthesize_to_s3.js)

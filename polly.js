@@ -16,7 +16,7 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]'
-const { PollyClient, DeleteLexiconCommand } = require("@aws-sdk/client-polly");
+const { PollyClient, DeleteLexiconCommand, Polly } = require("@aws-sdk/client-polly");
 // import {
 //     fromCognitoIdentityPool,
 // } from "@aws-sdk/credential-provider-cognito-identity";
@@ -39,7 +39,7 @@ const speechParams = {
     Text: "", // The 'speakText' function supplies this value
     TextType: "text", // For example, "text"
     VoiceId: "Matthew", // For example, "Matthew"
-    SpeechMarkTypes:['viseme']
+    SpeechMarkTypes:['viseme', 'boundary']
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
@@ -59,8 +59,9 @@ const speakText = async (data) => {
         console.log("Error", err);
         document.getElementById('result').innerHTML = err;
     }
-    console.log(data.ContentType); 
+    // console.log(data.ContentType); 
 };
+console.log(client)
 // Expose the function to the browser
 window.speakText = speakText;
 // snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
