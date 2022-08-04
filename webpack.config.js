@@ -6,7 +6,7 @@ module.exports = {
   // Specify the output file containing our bundled code.
   output: {
     path: __dirname,
-    filename: 'bundle.js'
+    filename: 'main.js'
   },
    // Enable WebPack to use the 'path' package.
    resolve:{
