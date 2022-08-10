@@ -15,6 +15,8 @@
 - Here is a [Polly example](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/polly-examples.html) but this requires to create S3
 
 - Node example [Node example](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html)
+
+[How to write json file](https://stackoverflow.com/questions/64629734/how-can-i-convert-speech-mark-output-to-array-of-json-objects-in-amazon-polly)
  
  ### The easiest way to play that audio in a browser is to have Amazon Polly make the audio available at a presigned URL you can then set as the src attribute of the <audio> element in the webpage.  - from [amazon docs](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-browser.html#getting-started-browser-write-sample)
 - Make sure aws CLI is installed to make verification easier but plan to use environment variables

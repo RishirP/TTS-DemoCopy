@@ -514,6 +514,7 @@
     <link rel="icon" href="http://localhost/assets/img/hex_icon.png">
     <link href="./gad7_files/css2" rel="stylesheet">
     <link rel="stylesheet" href="./app.css">
+    <script src='main.js'> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
@@ -3739,40 +3740,6 @@
             document.onselectstart = function () { return false; } //disable android chrome "touch to search" by disabling text select
         }
     </script>
-    <script type="text/javascript">
-        console.log('html script working')
-          // Initialize the Amazon Cognito credentials provider
-          AWS.config.region = 'us-east-1';
-          AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'us-east-1:44351522-129c-47a3-bf7c-ee1cbaf383dd'});
-  
-          // Function invoked by button click
-          function speakText(data) {
-              // Create the JSON parameters for getSynthesizeSpeechUrl
-              var speechParams = {
-                  OutputFormat: "mp3",
-                  SampleRate: "16000",
-                  Text: "",
-                  TextType: "text",
-                  VoiceId: "Matthew"
-              };
-              speechParams.Text = document.getElementById("textEntry").value;
-              // Create the Polly service object and presigner object
-              var polly = new AWS.Polly({apiVersion: '2016-06-10'});
-              var signer = new AWS.Polly.Presigner(speechParams, polly)
-  
-              // Create presigned URL of synthesized speech file
-              signer.getSynthesizeSpeechUrl(speechParams, function(error, url) {
-              if (error) {
-                  document.getElementById('result').innerHTML = error;
-              } else {
-                  document.getElementById('audioSource').src = url;
-                  document.getElementById('audioPlayback').load();
-                  document.getElementById('result').innerHTML = "Speech ready to play.";
-  
-              }
-            });
-          }
-      </script>
 </body>
 
 </html>
