@@ -514,6 +514,7 @@
     <link rel="icon" href="http://localhost/assets/img/hex_icon.png">
     <link href="./gad7_files/css2" rel="stylesheet">
     <link rel="stylesheet" href="./app.css">
+    <script src='main.js'> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
@@ -2774,6 +2775,15 @@
                     <div read-block-container class="question assessment-cover-page">
                         <span class="grey" style="font-size:14px;">Assessment <b style="color:#FF5900;">1 of
                                 10</b></span>
+                                <div id="textToSynth">
+                                    <input autofocus size="23" type="text" id="textEntry" value="It's very good to meet you."/>
+                                    <button class="btn default" onClick="speakText()">Synthesize</button>
+                                    <p id="result">Enter text above then click Synthesize</p>
+                                  </div>
+                                  <audio id="audioPlayback" controls>
+                                    <source id="audioSource" type="audio/mp3" src="">
+                                  </audio>
+                              
                         <h2>Let's Get Started!</h2>
                         <button play type="button" class="btn1">Play</button>
                         <button pause type="button" class="btn1 btn-warning mt-5 me-3">Pause</button>
@@ -3718,11 +3728,11 @@
             <img class="rotating" src="./gad7_files/spinner.png" alt="Loading..." style="width:120px;">
         </div>
     </div>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.410.0.min.js"></script>
     <script src="./gad7_files/app.js.download"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="./gad7_files/react-app.js.download"></script>
-    <script type="text/javascript" src="js/script.js"></script>
-    <script type="text/javascript" src="js/chrome.js"></script>
+    <!-- <script type="text/javascript" src="js/script.js"></script> -->
+    <!-- <script type="text/javascript" src="js/chrome.js"></script> -->
         let is_tap_user = false;
         if (is_tap_user) {
             //prevent nav to google on TAP
@@ -3730,12 +3740,6 @@
             document.onselectstart = function () { return false; } //disable android chrome "touch to search" by disabling text select
         }
     </script>
-
-
-
-
-
-
 </body>
 
 </html>
