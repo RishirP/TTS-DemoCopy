@@ -39,7 +39,7 @@ const speechParams = {
     'Text': "", // The 'speakText' function supplies this value
     'TextType': 'text', // For example, "text"
     'VoiceId': 'Matthew', // For example, "Matthew",
-    'SpeechMarkTypes' : ["word", "sentence"]
+    'SpeechMarkTypes' : ["word"]
 
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
@@ -47,15 +47,21 @@ const speechParams = {
 const speakText = async () => {
     // Update the Text parameter with the text entered by the user
     speechParams.Text = document.getElementById("textEntry").value;
-    try{
+    try {
         let url = await getSynthesizeSpeechUrl({
             client, params: speechParams,
+
         });
         console.log(url);
+        fetch(url)
+        .then((response) => response.text())
+        .then((data) => console.log(data));
+      
         // Load the URL of the voice recording into the browser
         document.getElementById('audioSource').src = url;
         document.getElementById('audioPlayback').load();
         document.getElementById('result').innerHTML = "Speech ready to play.";
+
     } catch (err) {
         console.log("Error", err);
         document.getElementById('result').innerHTML = err;
