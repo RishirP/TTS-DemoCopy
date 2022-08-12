@@ -60,7 +60,7 @@ const speakText = async () => {
           new StartSpeechSynthesisTaskCommand(speechParams)
         );
         console.log(
-          "Success, audio file added to " + speechParams.OutputS3BucketName
+         data, "Success, audio file added to " + speechParams.OutputS3BucketName
         );
       } catch (err) {
         console.log("Error putting object", err);
