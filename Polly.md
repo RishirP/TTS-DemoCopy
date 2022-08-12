@@ -1,17 +1,4 @@
-## Highlighting
-Pseudo Code to develop
-- Polly can return a text file of the speech and the word boundaries in json format, giving the start, end and start time byte as the word boundaries. Also gives a time when the word is spoken and when the word ends. This would allow you to use a time function to highlight the word. Using the bytes to identify the word on the html.
-Thoughts and Concerns 
-- We have a time where the word begins in the audio stream but how do we know when it ends?
-Right before the other one begins!! This function should be called HighlightRangeTime. You may be able to use OnRange (see if you can use time for this method).  
 
-For example, Amazon Polly generates the following word speech mark object from the text "Mary had a little lamb":
-{"time":373,"type":"word","start":5,"end":8,"value":"had"}
-The described word ("had") begins 373 milliseconds after the audio stream begins, and starts at byte 5 and ends at byte 8 of the input text.
-
-Steps to complete this TTS Highlight Service
-- Send the text to polly and have it read the assessment based off read blocks => closest read block on the page will be sent as a text parameter for polly. 
-- Once this happens youll be able to start highlighting.
 
 ### Obstacles and Difficulties already faced
 - Attempting to use a browser script, ends with a 403 error (forbidden) and on the network tab that get request is denied.
@@ -78,6 +65,7 @@ Steps to complete this TTS Highlight Service
 'The challenge is that Amazon gives you the byte position, not the character position, of the word' - From [TTS amazon polly](https://github.com/smch/tts/blob/master/amazon-polly/index.html) from user @smch
 
 ### Once you have full functionality
+*At the moment you have the polly speech request being sent to aws and it responds with a url which gives you the data about highlighting. The issue now is that you cannot have two file outputs for one request, and calling two would be too expensive, one possible solution is calling a request for each question to output as an mp3 and store in a s3 bucket instead. Store the mp3 in a bucket which will be requested
 - How to upload audio recording using amazon polly to Amazon S3 [Here](https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/polly/general-examples/src/polly_synthesize_to_s3.js)
 
 #### Questions and concerns
