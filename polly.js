@@ -67,6 +67,7 @@ const speakText = async () => {
       }
     };
     run();
+    // client.getSpeechSynthesisTask()
     // Load the URL of the voice recording into the browser
     document.getElementById("audioSource").src = url;
     document.getElementById("audioPlayback").load();
