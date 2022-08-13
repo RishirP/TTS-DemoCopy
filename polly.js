@@ -60,9 +60,21 @@ const speakText = async () => {
           new StartSpeechSynthesisTaskCommand(speechParams)
         );
         console.log(
-         data, "Success, audio file added to " + speechParams.OutputS3BucketName
+          data,
+          "Success, audio file added to " + speechParams.OutputS3BucketName
         );
-      } catch (err) {
+        let requestId = data.SynthesisTask.TaskId;
+        console.log('The request ID is' + requestId)
+        const retrieveAudioParams =  {
+            TaskId: ' ' /* required */
+          };
+        retrieveAudioParams.TaskId = requestId.toString()
+        console.log('This is the retrival params' + retrieveAudioParams.TaskId)
+        client.getSpeechSynthesisTask(retrieveAudioParams, function(err, data) {
+            if (err) console.log(err, err.stack, AWS.Response); // an error occurred
+            else     console.log(data);           // successful response
+          });
+    } catch (err) {
         console.log("Error putting object", err);
       }
     };
