@@ -25,7 +25,8 @@
     "@aws-sdk/credential-provider-cognito-identity": "^3.137.0",
     "@aws-sdk/node-http-handler": "^3.127.0",
     "@aws-sdk/polly-request-presigner": "^3.138.0",
-    "@google-cloud/text-to-speech": "^4.0.0"
+    "@google-cloud/text-to-speech": "^4.0.0",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "path-browserify": "^1.0.1",

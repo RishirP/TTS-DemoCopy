@@ -20,6 +20,13 @@ import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
+import { $ } from 'jquery';
+if (jQuery) {
+    alert("jquery is loaded");
+} else {
+    alert("Not loaded");
+}
+
 const client = new Polly({
   region: "us-east-1",
   credentials: fromCognitoIdentityPool({
@@ -30,19 +37,22 @@ const client = new Polly({
 
 // Set the parameters
 const speechParams = {
-  OutputFormat: "json", // For example, 'mp3'
+  OutputFormat: "mp3", // For example, 'mp3'
   SampleRate: "16000", // For example, '16000
-  OutputS3BucketName: "testbucket",
+  OutputS3BucketName: "audiofiles45",
   Text: "", // The 'speakText' function supplies this value
   TextType: "text", // For example, "text"
   VoiceId: "Matthew", // For example, "Matthew",
-  'SpeechMarkTypes' : ["word"]
+//   'SpeechMarkTypes' : ["word"]
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
-const speakText = async () => {
+$('.btn default').on('click',  async function speakText (event){
   // Update the Text parameter with the text entered by the user
-  speechParams.Text = document.getElementById("textEntry").value;
+  event.preventDefault();
+  let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+
+  speechParams.Text = readBlock.text();
   try {
     let url = await getSynthesizeSpeechUrl({
       client,
@@ -97,7 +107,8 @@ const speakText = async () => {
     console.log("Error", err);
     document.getElementById("result").innerHTML = err;
   }
-};
+}
+)
 // Expose the function to the browser
 window.speakText = speakText;
 // snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
