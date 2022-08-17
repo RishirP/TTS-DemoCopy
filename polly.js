@@ -33,13 +33,13 @@ const client = new Polly({
 
 // Set the parameters
 const speechParams = {
-  OutputFormat: "json", // For example, 'mp3'
+  OutputFormat: "mp3", // For example, 'mp3'
   SampleRate: "16000", // For example, '16000
   OutputS3BucketName: "testbucket",
   Text: "", // The 'speakText' function supplies this value
   TextType: "text", // For example, "text"
   VoiceId: "Matthew", // For example, "Matthew",
-  'SpeechMarkTypes' : ["word"]
+//   'SpeechMarkTypes' : ["word"]
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
@@ -56,7 +56,7 @@ const speakText = async () => {
         fetch(url)
     .then((response) => response.text())
     .then((data) => console.log(data));
-
+    speakMarks()
     // fetch(url)
     // .then(response => response.text()).then(data => 
     // console.log(data));
@@ -101,7 +101,39 @@ const speakText = async () => {
     document.getElementById("result").innerHTML = err;
   }
 };
+const speechParams2 = {
+    OutputFormat: "json", // For example, 'mp3'
+    SampleRate: "16000", // For example, '16000
+    OutputS3BucketName: "testbucket",
+    Text: "", // The 'speakText' function supplies this value
+    TextType: "text", // For example, "text"
+    VoiceId: "Matthew", // For example, "Matthew",
+    'SpeechMarkTypes' : ["word"]
+  };
+  // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
+  // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+  const speakMarks = async () => {
+    // Update the Text parameter with the text entered by the user
+    speechParams2.Text = ('Hello world!');
+    try {
+      let url = await getSynthesizeSpeechUrl({
+        client,
+        params: speechParams2,
+      });
+      console.log(url);
+      // Get the speech marks
+          fetch(url)
+      .then((response) => response.text())
+      .then((data) => console.log(data));
+    } catch (err) {
+    console.log("Error", err);
+    document.getElementById("result").innerHTML = err;
+  }
+}
+
+
 // Expose the function to the browser
 window.speakText = speakText;
+window.speakMarks = speakMarks;
 // snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
 // snippet-end:[Polly.JavaScript.BrowserExample.completeV3]
