@@ -20,7 +20,7 @@ import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
-import { $ } from 'jquery';
+// import { $ } from 'jquery';
 // Check if Jquery is loaded
 // if (jQuery) {
 //     alert("jquery is loaded");
