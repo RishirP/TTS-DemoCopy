@@ -75,4 +75,7 @@ This current demo uses aws-sdk V2, but V3 is the most recent version. V3 example
 
 Should we store the audio files?
 
+Not waiting for first call to finish before the second 
 
+### Getting audio and metadata for highlight
+Create a promise that create the audio file, then 
