@@ -21,11 +21,12 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 import { $ } from 'jquery';
-if (jQuery) {
-    alert("jquery is loaded");
-} else {
-    alert("Not loaded");
-}
+// Check if Jquery is loaded
+// if (jQuery) {
+//     alert("jquery is loaded");
+// } else {
+//     alert("Not loaded");
+// }
 
 const client = new Polly({
   region: "us-east-1",
@@ -37,13 +38,13 @@ const client = new Polly({
 
 // Set the parameters
 const speechParams = {
-  OutputFormat: "mp3", // For example, 'mp3'
+  OutputFormat: "json", // For example, 'mp3'
   SampleRate: "16000", // For example, '16000
   OutputS3BucketName: "audiofiles45",
   Text: "", // The 'speakText' function supplies this value
   TextType: "text", // For example, "text"
   VoiceId: "Matthew", // For example, "Matthew",
-//   'SpeechMarkTypes' : ["word"]
+  'SpeechMarkTypes' : ["word"]
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
@@ -91,7 +92,7 @@ $('.btn default').on('click',  async function speakText (event){
           function (err, data) {
             if (err)
               console.log(err, err.stack, AWS.Response); // an error occurred
-            else console.log(data); // successful response
+            else console.log("Successful Response: " + data); // successful response
           }
         );
       } catch (err) {
