@@ -1,8 +1,9 @@
-
+## Current Developments 
+- Audio is synthesized and placed into an s3 bucket. From here another request is made to retrieve the audio (or could be speech marks json). The point of this is so I dont have to constantly make audio or speech mark requests to have the TTS and highlight. What I'm thinking moving forward is to make the api request for the speech marks and retrieve the audio files and eventually cache them (Save that money). Once the play button is pressed words will be highlighted as they are spoken, in perfect synchronicity. To make this happen you must store the audio files so they are ready to be played once the play button is pressed, also as the button is clicked the highlight functionality starts, so this means the data from the speech request is made then the data is fetched after this you can use the json to start this from the start to end byte and at the time it takes for each word. 
 
 ### Obstacles and Difficulties already faced
-- Attempting to use a browser script, ends with a 403 error (forbidden) and on the network tab that get request is denied.
-- I don't know if it is a cors issue or a problem with my amazon credentials (Have double checked that is not issue, will check again), will find the error again and attempt to debug. Now attempting to reproduce issue. 
+- Attempting to use a browser script, ends with a 403 error (forbidden) and on the network tab that get request is denied. (figured it out)
+- I don't know if it is a cors issue or a problem with my amazon credentials (Have double checked that is not issue, will check again), will find the error again and attempt to debug. Now attempting to reproduce issue. (figured it out)
 - If it is cors, maybe will we have to use a fetch request and add in the header for cross-origin-resource-sharing. [Here are some documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 - ![Amazon on CORS](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/images/cors-overview.png)
 - Cors could be the 403 error also, the application is requesting polly to return a speech response yet has not been authorized so the request is denied. 
@@ -10,8 +11,8 @@
 - **Read amazon's how to add cors headers and follow that**        
 
 ### Immediate problems
--When changing parameters for outFile: UnexpectedParameter: Unexpected key 'outFile' found in params
--Thinking that I may have to use a fetch request so I can manually configure how I want the response. [Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
+-When changing parameters for outFile: UnexpectedParameter: Unexpected key 'outFile' found in params (Fixed)
+-Thinking that I may have to use a fetch request so I can manually configure how I want the response. [Polly API Reference](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html) (Not needed)
 https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Polly.html
 
 ### Important Guides and Documentation to Follow

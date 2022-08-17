@@ -20,6 +20,9 @@ import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
+
+
+main
 const client = new Polly({
   region: "us-east-1",
   credentials: fromCognitoIdentityPool({
@@ -81,7 +84,7 @@ const speakText = async () => {
           function (err, data) {
             if (err)
               console.log(err, err.stack, AWS.Response); // an error occurred
-            else console.log(data); // successful response
+            else console.log("Successful Response: " + data); // successful response
           }
         );
       } catch (err) {
