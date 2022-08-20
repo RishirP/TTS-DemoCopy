@@ -22,7 +22,12 @@ import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
 
-main
+const btn = document.body.getElementsByClassName("btn default")
+console.log(btn)
+
+
+// btn.addEventListener("click", speakText())
+
 const client = new Polly({
   region: "us-east-1",
   credentials: fromCognitoIdentityPool({
@@ -43,6 +48,7 @@ const speechParams = {
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+
 const speakText = async () => {
   // Update the Text parameter with the text entered by the user
   speechParams.Text = document.getElementById("textEntry").value;
@@ -60,6 +66,8 @@ const speakText = async () => {
     // fetch(url)
     // .then(response => response.text()).then(data => 
     // console.log(data));
+    const questions = document.querySelectorAll('[read-block]')
+    console.log(questions)
 
     const run = async () => {
       try {
@@ -130,6 +138,34 @@ const speechParams2 = {
     document.getElementById("result").innerHTML = err;
   }
 }
+
+// Instead of #play, change to play attribute
+$('.btn default').on('click', function (event) {
+    event.preventDefault();
+    let $readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+    console.log($readBlock)
+    $readBlock.each(function (index) {
+      // console.log( index + ": " + $( this ).text());
+      // Do we need to index the read blocks?
+      let readblockElement = $(this);
+      let readBlockText = readblockElement.text();
+      console.log(readBlockText)
+      let originalText = readBlockText;
+      let utterance = new SpeechSynthesisUtterance(originalText);
+      utterance.addEventListener("boundary", (event) => {
+        const { charIndex, charLength } = event;
+        //document.body.querySelector('#paragraph1').innerHTML =
+        readblockElement.html(highlight(
+          originalText,
+          charIndex,
+          charIndex + charLength
+        ));
+      })
+    })
+});
+
+      let readBlock = $('[read-block-container]').find('[read-block]');
+      console.log(readBlock)
 
 
 // Expose the function to the browser
