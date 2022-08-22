@@ -16,14 +16,32 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]
+window.onload = function() {
+    if (window.jQuery) {  
+        // jQuery is loaded  
+        alert("Yeah!");
+    } else {
+        // jQuery is not loaded
+        alert("Doesn't Work");
+    }
+}
+
+const synthesizeBtn = $("button")
+console.log(synthesizeBtn);
+
+
+const highlight = (text, from, to) => {
+    let replacement = highlightBackground(text.slice(from, to));
+    return text.substring(0, from) + replacement + text.substring(to);
+  };
+  const highlightBackground = (sample) =>
+    `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
+  
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-
-const btn = document.body.getElementsByClassName("btn default")
-console.log(btn)
 
 
 // btn.addEventListener("click", speakText())
@@ -66,8 +84,7 @@ const speakText = async () => {
     // fetch(url)
     // .then(response => response.text()).then(data => 
     // console.log(data));
-    const questions = document.querySelectorAll('[read-block]')
-    console.log(questions)
+
 
     const run = async () => {
       try {
@@ -139,33 +156,30 @@ const speechParams2 = {
   }
 }
 
+
 // Instead of #play, change to play attribute
+
 $('.btn default').on('click', function (event) {
     event.preventDefault();
-    let $readBlock = $(this).closest('[read-block-container]').find('[read-block]');
-    console.log($readBlock)
-    $readBlock.each(function (index) {
-      // console.log( index + ": " + $( this ).text());
-      // Do we need to index the read blocks?
-      let readblockElement = $(this);
-      let readBlockText = readblockElement.text();
-      console.log(readBlockText)
-      let originalText = readBlockText;
-      let utterance = new SpeechSynthesisUtterance(originalText);
-      utterance.addEventListener("boundary", (event) => {
-        const { charIndex, charLength } = event;
-        //document.body.querySelector('#paragraph1').innerHTML =
-        readblockElement.html(highlight(
-          originalText,
-          charIndex,
-          charIndex + charLength
-        ));
-      })
-    })
+    let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+    console.log(readBlock)
+    console.log('working');
+    // $readBlock.each(function (index) {
+    //   let readblockElement = $(this);
+    //   let readBlockText = readblockElement.text();
+    //   console.log(readBlockText)
+    //   let originalText = readBlockText;
+    //   let utterance = new SpeechSynthesisUtterance(originalText);
+    //   utterance.addEventListener("boundary", (event) => {
+    //     const { charIndex, charLength } = event;
+    //     readblockElement.html(highlight(
+    //       originalText,
+    //       charIndex,
+    //       charIndex + charLength
+    //     ));
+    //   })
+    // })
 });
-
-      let readBlock = $('[read-block-container]').find('[read-block]');
-      console.log(readBlock)
 
 
 // Expose the function to the browser
