@@ -2,10 +2,10 @@
 var path = require("path");
 module.exports = {
   // Specify the entry point for our app.
-  entry: [path.join(__dirname, "polly.js")],
+  entry: [path.join(__dirname, "js/app.js")],
   // Specify the output file containing our bundled code.
   output: {
-    path: __dirname,
+    path: path.join(__dirname,"js"),
     filename: 'main.js'
   },
    // Enable WebPack to use the 'path' package.

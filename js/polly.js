@@ -16,13 +16,27 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]
+
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
+const synthesizeBtn = $("button")
+console.log(synthesizeBtn);
 
-main
+
+const highlight = (text, from, to) => {
+    let replacement = highlightBackground(text.slice(from, to));
+    return text.substring(0, from) + replacement + text.substring(to);
+  };
+  const highlightBackground = (sample) =>
+    `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
+
+
+
+// btn.addEventListener("click", speakText())
+
 const client = new Polly({
   region: "us-east-1",
   credentials: fromCognitoIdentityPool({
@@ -43,6 +57,7 @@ const speechParams = {
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+
 const speakText = async () => {
   // Update the Text parameter with the text entered by the user
   speechParams.Text = document.getElementById("textEntry").value;
@@ -60,6 +75,7 @@ const speakText = async () => {
     // fetch(url)
     // .then(response => response.text()).then(data => 
     // console.log(data));
+
 
     const run = async () => {
       try {
@@ -130,6 +146,31 @@ const speechParams2 = {
     document.getElementById("result").innerHTML = err;
   }
 }
+
+
+// Instead of #play, change to play attribute
+
+$('.btn default').on('click', function (event) {
+    event.preventDefault();
+    let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+    console.log(readBlock)
+    console.log('working');
+    // $readBlock.each(function (index) {
+    //   let readblockElement = $(this);
+    //   let readBlockText = readblockElement.text();
+    //   console.log(readBlockText)
+    //   let originalText = readBlockText;
+    //   let utterance = new SpeechSynthesisUtterance(originalText);
+    //   utterance.addEventListener("boundary", (event) => {
+    //     const { charIndex, charLength } = event;
+    //     readblockElement.html(highlight(
+    //       originalText,
+    //       charIndex,
+    //       charIndex + charLength
+    //     ));
+    //   })
+    // })
+});
 
 
 // Expose the function to the browser
