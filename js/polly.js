@@ -16,15 +16,11 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 */
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]
-window.onload = function() {
-    if (window.jQuery) {  
-        // jQuery is loaded  
-        alert("Yeah!");
-    } else {
-        // jQuery is not loaded
-        alert("Doesn't Work");
-    }
-}
+
+import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
+import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
+import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
 const synthesizeBtn = $("button")
 console.log(synthesizeBtn);
@@ -36,11 +32,6 @@ const highlight = (text, from, to) => {
   };
   const highlightBackground = (sample) =>
     `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
-  
-import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
-import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
-import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
 
 
