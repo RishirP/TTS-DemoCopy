@@ -60,7 +60,7 @@ const speechParams = {
 
 const speakText = async () => {
   // Update the Text parameter with the text entered by the user
-  speechParams.Text = document.getElementById("textEntry").value;
+  // speechParams.Text = document.getElementById("textEntry").value;
   try {
     let url = await getSynthesizeSpeechUrl({
       client,
@@ -128,7 +128,7 @@ const speechParams2 = {
   // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
   const speakMarks = async () => {
     // Update the Text parameter with the text entered by the user
-    speechParams2.Text = ('Hello world!');
+    // speechParams2.Text = ('Hello world!');
     try {
       let url = await getSynthesizeSpeechUrl({
         client,
@@ -147,13 +147,18 @@ const speechParams2 = {
 
 
 // Instead of #play, change to play attribute
-
+console.log($(['btn']));
 $('[btn]').on('click', function (event) {
+  event.preventDefault();
+  let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+  console.log(readBlock);
+readBlock.each(function(){
+  let readblockElement = $(this);
+  let readBlockText = readblockElement.text();
+speechParams.Text = readBlockText
+speechParams2.Text = readBlockText
+})
   speakText();
-    event.preventDefault();
-    let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
-    console.log(readBlock)
-    console.log('working');
 });
 
 
