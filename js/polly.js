@@ -25,6 +25,7 @@ import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 // const synthesizeBtn = $("button")
 // console.log(synthesizeBtn);
 
+let highlightArray = [];
 
 const highlight = (text, from, to) => {
     let replacement = highlightBackground(text.slice(from, to));
@@ -138,7 +139,18 @@ const speechParams2 = {
       // Get the speech marks
           fetch(url)
       .then((response) => response.text())
-      .then((data) => console.log(data));
+      .then((data) => {
+        // Change the object to an array; 
+        data.replace(/\\/g, ' ');
+
+      let content = data.split(/\r?\n/)
+      content.pop();
+        highlightArray = content;
+        // content.each()
+        console.log(highlightArray);
+      }
+      )
+
     } catch (err) {
     console.log("Error", err);
     document.getElementById("result").innerHTML = err;
