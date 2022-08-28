@@ -22,8 +22,8 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-const synthesizeBtn = $("button")
-console.log(synthesizeBtn);
+// const synthesizeBtn = $("button")
+// console.log(synthesizeBtn);
 
 
 const highlight = (text, from, to) => {
@@ -69,8 +69,6 @@ const speakText = async () => {
     console.log(url);
     // Get the speech marks
         fetch(url)
-    .then((response) => response.text())
-    .then((data) => console.log(data));
     speakMarks()
     // fetch(url)
     // .then(response => response.text()).then(data => 
@@ -150,26 +148,12 @@ const speechParams2 = {
 
 // Instead of #play, change to play attribute
 
-$('.btn default').on('click', function (event) {
+$('[btn]').on('click', function (event) {
+  speakText();
     event.preventDefault();
     let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
     console.log(readBlock)
     console.log('working');
-    // $readBlock.each(function (index) {
-    //   let readblockElement = $(this);
-    //   let readBlockText = readblockElement.text();
-    //   console.log(readBlockText)
-    //   let originalText = readBlockText;
-    //   let utterance = new SpeechSynthesisUtterance(originalText);
-    //   utterance.addEventListener("boundary", (event) => {
-    //     const { charIndex, charLength } = event;
-    //     readblockElement.html(highlight(
-    //       originalText,
-    //       charIndex,
-    //       charIndex + charLength
-    //     ));
-    //   })
-    // })
 });
 
 
