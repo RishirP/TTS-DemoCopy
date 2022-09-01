@@ -22,19 +22,14 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-// const synthesizeBtn = $("button")
-// console.log(synthesizeBtn);
-
 let highlightArray = [];
 
 const highlight = (text, from, to) => {
-    let replacement = highlightBackground(text.slice(from, to));
-    return text.substring(0, from) + replacement + text.substring(to);
-  };
-  const highlightBackground = (sample) =>
-    `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
-
-
+  let replacement = highlightBackground(text.slice(from, to));
+  return text.substring(0, from) + replacement + text.substring(to);
+};
+const highlightBackground = (sample) =>
+  `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
 
 // btn.addEventListener("click", speakText())
 
@@ -50,11 +45,11 @@ const client = new Polly({
 const speechParams = {
   OutputFormat: "mp3", // For example, 'mp3'
   SampleRate: "16000", // For example, '16000
-  OutputS3BucketName: "testbucket",
+  // OutputS3BucketName: "testbucket",
   Text: "", // The 'speakText' function supplies this value
   TextType: "text", // For example, "text"
   VoiceId: "Matthew", // For example, "Matthew",
-//   'SpeechMarkTypes' : ["word"]
+  //   'SpeechMarkTypes' : ["word"]
 };
 // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
@@ -69,44 +64,43 @@ const speakText = async () => {
     });
     console.log(url);
     // Get the speech marks
-        fetch(url)
-    speakMarks()
+    fetch(url);
+    speakMarks();
     // fetch(url)
-    // .then(response => response.text()).then(data => 
+    // .then(response => response.text()).then(data =>
     // console.log(data));
 
-
-    const run = async () => {
-      try {
-        const data = await client.send(
-          new StartSpeechSynthesisTaskCommand(speechParams)
-        );
-        console.log(
-          data,
-          "Success, audio file added to " + speechParams.OutputS3BucketName
-        );
-        let requestId = data.SynthesisTask.TaskId;
-        console.log("The request ID is " + requestId);
-        const retrieveAudioParams = {
-          TaskId: " " /* required */,
-        };
-        retrieveAudioParams.TaskId = requestId.toString();
-        console.log(
-          "This is the retrival params " + retrieveAudioParams.TaskId
-        );
-        client.getSpeechSynthesisTask(
-          retrieveAudioParams,
-          function (err, data) {
-            if (err)
-              console.log(err, err.stack, AWS.Response); // an error occurred
-            else console.log("Successful Response: " + data); // successful response
-          }
-        );
-      } catch (err) {
-        console.log("Error putting object", err);
-      }
-    };
-    run();
+    // const run = async () => {
+    //   try {
+    //     const data = await client.send(
+    //       new StartSpeechSynthesisTaskCommand(speechParams)
+    //     );
+    //     console.log(
+    //       data,
+    //       "Success, audio file added to " + speechParams.OutputS3BucketName
+    //     );
+    //     let requestId = data.SynthesisTask.TaskId;
+    //     console.log("The request ID is " + requestId);
+    //     const retrieveAudioParams = {
+    //       TaskId: " " /* required */,
+    //     };
+    //     retrieveAudioParams.TaskId = requestId.toString();
+    //     console.log(
+    //       "This is the retrival params " + retrieveAudioParams.TaskId
+    //     );
+    //     client.getSpeechSynthesisTask(
+    //       retrieveAudioParams,
+    //       function (err, data) {
+    //         if (err)
+    //           console.log(err, err.stack, AWS.Response); // an error occurred
+    //         else console.log("Successful Response: " + data); // successful response
+    //       }
+    //     );
+    //   } catch (err) {
+    //     console.log("Error putting object", err);
+    //   }
+    // };
+    // run();
     // Load the URL of the voice recording into the browser
     document.getElementById("audioSource").src = url;
     document.getElementById("audioPlayback").load();
@@ -117,62 +111,93 @@ const speakText = async () => {
   }
 };
 const speechParams2 = {
-    OutputFormat: "json", // For example, 'mp3'
-    SampleRate: "16000", // For example, '16000
-    OutputS3BucketName: "testbucket",
-    Text: "", // The 'speakText' function supplies this value
-    TextType: "text", // For example, "text"
-    VoiceId: "Matthew", // For example, "Matthew",
-    'SpeechMarkTypes' : ["word"]
-  };
-  // snippet-end:[Polly.JavaScript.BrowserExample.configV3]
-  // snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
-  const speakMarks = async () => {
-    // Update the Text parameter with the text entered by the user
-    // speechParams2.Text = ('Hello world!');
-    try {
-      let url = await getSynthesizeSpeechUrl({
-        client,
-        params: speechParams2,
-      });
-      console.log(url);
-      // Get the speech marks
-          fetch(url)
+  OutputFormat: "json", // For example, 'mp3'
+  SampleRate: "16000", // For example, '16000
+  Text: "", // The 'speakText' function supplies this value
+  TextType: "text", // For example, "text"
+  VoiceId: "Matthew", // For example, "Matthew",
+  SpeechMarkTypes: ["word"],
+};
+// snippet-end:[Polly.JavaScript.BrowserExample.configV3]
+// snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+const speakMarks = async () => {
+  // Update the Text parameter with the text entered by the user
+  // speechParams2.Text = ('Hello world!');
+  try {
+    let url = await getSynthesizeSpeechUrl({
+      client,
+      params: speechParams2,
+    });
+    console.log(url);
+    // Get the speech marks
+    fetch(url)
       .then((response) => response.text())
       .then((data) => {
-        // Change the object to an array; 
-        data.replace(/\\/g, ' ');
-
-      let content = data.split(/\r?\n/)
-      content.pop();
-        highlightArray = content;
+        // Log the data that will be changed for highlight
+        console.log(data, typeof data);
+        // Replace backslashes
+        let replacedData = data.replace(/\\/g, "");
+        // Split each json object into an array and pop the last index
+        let content = replacedData.split(/\r?\n/);
+        content.pop();
+        // This line below will give you the object where the data can be extracted 
+        // console.log(JSON.parse(content[0]));
         // content.each()
-        console.log(highlightArray);
-      }
-      )
+        console.log(content);
+        //init
+        let prev_time = 0;
+        let i = 0;
+        timingfunc(i);
 
-    } catch (err) {
+        timingfunc = function(i){
+          let word_timing = JSON.parse(content[i]);
+          highlight(text, word_timing[start], word_timing[end]);
+          if( i++ < timing_arr.length ){ 
+            setTimeout(timingfunc(i), word_timing[time] - prev_time);
+            prev_time = word_timing[i];
+            i++
+          }
+        }
+
+        console.log(highlightArray);
+        let readBlock = $(this)
+          .closest("[read-block-container]")
+          .find("[read-block]");
+        console.log(readBlock);
+        readBlock.each(function (index) {
+          let readblockElement = $(this);
+          let readBlockText = readblockElement.text();
+          console.log(readBlockText);
+          let originalText = readBlockText;
+
+          // Call out Highlight Function and start at index 0,
+          readblockElement.html(highlight(originalText, start, end));
+        });
+        setInterval(function replaceText(text) {});
+      });
+  } catch (err) {
     console.log("Error", err);
     document.getElementById("result").innerHTML = err;
   }
-}
-
+};
 
 // Instead of #play, change to play attribute
-console.log($(['btn']));
-$('[btn]').on('click', function (event) {
+console.log($(["btn"]));
+$("[btn]").on("click", function (event) {
   event.preventDefault();
-  let readBlock = $(this).closest('[read-block-container]').find('[read-block]');
+  let readBlock = $(this)
+    .closest("[read-block-container]")
+    .find("[read-block]");
   console.log(readBlock);
-readBlock.each(function(){
-  let readblockElement = $(this);
-  let readBlockText = readblockElement.text();
-speechParams.Text = readBlockText
-speechParams2.Text = readBlockText
-})
+  readBlock.each(function () {
+    let readblockElement = $(this);
+    let readBlockText = readblockElement.text();
+    speechParams.Text = readBlockText;
+    speechParams2.Text = readBlockText;
+    // timingfunc(readBlockText,)
+  });
   speakText();
 });
-
 
 // Expose the function to the browser
 window.speakText = speakText;
