@@ -139,7 +139,7 @@ $("[btn]").on("click", function (event) {
     //init highlight timing function
 let prev_time = 0;
 let i = 0;
-const timingfunc = function (readBlockElement) {
+const timingfunc = function () {
           console.log("time to highlight");
           console.log(content[0]);
           console.log(highlightArray)
