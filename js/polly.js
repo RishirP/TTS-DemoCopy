@@ -46,13 +46,20 @@ const speechParams = {
   OutputFormat: "mp3", // For example, 'mp3'
   SampleRate: "16000", // For example, '16000
   // OutputS3BucketName: "testbucket",
-  Text: "", // The 'speakText' function supplies this value
+  Text: "Hello", // The 'speakText' function supplies this value
   TextType: "text", // For example, "text"
   VoiceId: "Matthew", // For example, "Matthew",
   //   'SpeechMarkTypes' : ["word"]
 };
-// snippet-end:[Polly.JavaScript.BrowserExample.configV3]
-// snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+
+const speechParams2 = {
+  OutputFormat: "json", // For example, 'mp3'
+  SampleRate: "16000", // For example, '16000
+  Text: "Hello world", // The 'speakText' function supplies this value
+  TextType: "text", // For example, "text"
+  VoiceId: "Matthew", // For example, "Matthew",
+  SpeechMarkTypes: ["word"],
+};
 
 const speakText = async () => {
   // Update the Text parameter with the text entered by the user
@@ -66,10 +73,7 @@ const speakText = async () => {
     // Get the speech marks
     fetch(url);
     speakMarks();
-    // fetch(url)
-    // .then(response => response.text()).then(data =>
-    // console.log(data));
-
+    // If you ever want to change it to add to a bucket
     // const run = async () => {
     //   try {
     //     const data = await client.send(
@@ -101,6 +105,7 @@ const speakText = async () => {
     //   }
     // };
     // run();
+
     // Load the URL of the voice recording into the browser
     document.getElementById("audioSource").src = url;
     document.getElementById("audioPlayback").load();
@@ -110,70 +115,48 @@ const speakText = async () => {
     document.getElementById("result").innerHTML = err;
   }
 };
-const speechParams2 = {
-  OutputFormat: "json", // For example, 'mp3'
-  SampleRate: "16000", // For example, '16000
-  Text: "", // The 'speakText' function supplies this value
-  TextType: "text", // For example, "text"
-  VoiceId: "Matthew", // For example, "Matthew",
-  SpeechMarkTypes: ["word"],
-};
-// snippet-end:[Polly.JavaScript.BrowserExample.configV3]
-// snippet-start:[Polly.JavaScript.BrowserExample.synthesizeV3]
+
+// Send another request to polly for speech marks
 const speakMarks = async () => {
-  // Update the Text parameter with the text entered by the user
-  // speechParams2.Text = ('Hello world!');
+  // Send async get request
   try {
     let url = await getSynthesizeSpeechUrl({
       client,
       params: speechParams2,
     });
     console.log(url);
-    // Get the speech marks
+    // Fetch the speech marks
     fetch(url)
+      // Then sends a response text back with the speech marks
       .then((response) => response.text())
       .then((data) => {
         // Log the data that will be changed for highlight
         console.log(data, typeof data);
         // Replace backslashes
         let replacedData = data.replace(/\\/g, "");
-        // Split each json object into an array and pop the last index
+        // Split each json object into an array and pops the last index
         let content = replacedData.split(/\r?\n/);
         content.pop();
-        // This line below will give you the object where the data can be extracted 
+        // This line below will give you an example of the object where the data can be extracted
         // console.log(JSON.parse(content[0]));
         // content.each()
         console.log(content);
-        //init
+        //init highlight timing function
         let prev_time = 0;
         let i = 0;
-        timingfunc(i);
 
-        timingfunc = function(i){
+        const timingfunc = function () {
+          console.log("time to highlight");
+          console.log(content[0]);
           let word_timing = JSON.parse(content[i]);
-          highlight(text, word_timing[start], word_timing[end]);
-          if( i++ < timing_arr.length ){ 
+          console.log(word_timing);
+          highlight(readBlockText, word_timing[start], word_timing[end]);
+          if (i++ < timing_arr.length) {
             setTimeout(timingfunc(i), word_timing[time] - prev_time);
             prev_time = word_timing[i];
-            i++
+            i++;
           }
-        }
-
-        console.log(highlightArray);
-        let readBlock = $(this)
-          .closest("[read-block-container]")
-          .find("[read-block]");
-        console.log(readBlock);
-        readBlock.each(function (index) {
-          let readblockElement = $(this);
-          let readBlockText = readblockElement.text();
-          console.log(readBlockText);
-          let originalText = readBlockText;
-
-          // Call out Highlight Function and start at index 0,
-          readblockElement.html(highlight(originalText, start, end));
-        });
-        setInterval(function replaceText(text) {});
+        };
       });
   } catch (err) {
     console.log("Error", err);
@@ -189,12 +172,13 @@ $("[btn]").on("click", function (event) {
     .closest("[read-block-container]")
     .find("[read-block]");
   console.log(readBlock);
-  readBlock.each(function () {
-    let readblockElement = $(this);
-    let readBlockText = readblockElement.text();
+  readBlock.each(function (index) {
+    let readBlockElement = $(this);
+    let readBlockText = readBlockElement.text();
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
-    // timingfunc(readBlockText,)
+    console.log(readBlockText);
+    timingfunc(i);
   });
   speakText();
 });
@@ -202,5 +186,3 @@ $("[btn]").on("click", function (event) {
 // Expose the function to the browser
 window.speakText = speakText;
 window.speakMarks = speakMarks;
-// snippet-end:[Polly.JavaScript.BrowserExample.synthesizeV3]
-// snippet-end:[Polly.JavaScript.BrowserExample.completeV3]
