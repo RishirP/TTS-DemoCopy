@@ -34,7 +34,7 @@ const highlightBackground = (sample) =>
 //init highlight timing function
 let prev_time = 0;
 let i = 0;
-const timingfunc = function () {
+const timingfunc = function (readBlockElement) {
           console.log("time to highlight");
           console.log(content[0]);
           console.log(highlightArray)
