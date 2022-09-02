@@ -30,7 +30,23 @@ const highlight = (text, from, to) => {
 };
 const highlightBackground = (sample) =>
   `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
-
+  
+//init highlight timing function
+let prev_time = 0;
+let i = 0;
+const timingfunc = function () {
+          console.log("time to highlight");
+          console.log(content[0]);
+          console.log(highlightArray)
+          let word_timing = JSON.parse(content[i]);
+          console.log(word_timing);
+          let text = $('read-block')[0].
+          highlight(text, word_timing[start], word_timing[end]);
+          if (i++ < timing_arr.length) {
+            setTimeout(timingfunc(i), word_timing[time] - prev_time);
+            prev_time = word_timing[i];
+            i++;
+          }
 // btn.addEventListener("click", speakText())
 
 const client = new Polly({
@@ -143,23 +159,23 @@ const speakMarks = async () => {
         console.log(content);
         highlightArray = content
         //init highlight timing function
-        let prev_time = 0;
-        let i = 0;
-        const timingfunc = function () {
-          console.log("time to highlight");
-          console.log(content[0]);
-          console.log(highlightArray)
-          let word_timing = JSON.parse(content[i]);
-          console.log(word_timing);
-          let text = $('read-block')[0].
-          highlight(text, word_timing[start], word_timing[end]);
-          if (i++ < timing_arr.length) {
-            setTimeout(timingfunc(i), word_timing[time] - prev_time);
-            prev_time = word_timing[i];
-            i++;
-          }
+//         let prev_time = 0;
+//         let i = 0;
+//         const timingfunc = function () {
+//           console.log("time to highlight");
+//           console.log(content[0]);
+//           console.log(highlightArray)
+//           let word_timing = JSON.parse(content[i]);
+//           console.log(word_timing);
+//           let text = $('read-block')[0].
+//           highlight(text, word_timing[start], word_timing[end]);
+//           if (i++ < timing_arr.length) {
+//             setTimeout(timingfunc(i), word_timing[time] - prev_time);
+//             prev_time = word_timing[i];
+//             i++;
+//           }
         };
-        timingfunc(i)
+
 
       });
   } catch (err) {
@@ -182,6 +198,8 @@ $("[btn]").on("click", function (event) {
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
+    timingfunc(i)
+//     This is where the highlight func should be 
   });
   speakText();
   speakMarks();
