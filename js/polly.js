@@ -42,7 +42,7 @@ const timingfunc = function () {
           console.log(word_timing);
           let text = $(['read-block']);
           console.log('text is ' + text);
-          highlight(text, word_timing[start], word_timing[end]);
+          readBlockElement.highlight(text, word_timing[start], word_timing[end]);
           if (i++ < timing_arr.length) {
             setTimeout(timingfunc(i), word_timing[time] - prev_time);
             prev_time = word_timing[i];
@@ -152,7 +152,8 @@ $("[btn]").on("click", function (event) {
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
-//     This is where the highlight func should be 
+//     This is where the highlight func should be
+    timingfunc(i)
   });
   speakText();
   speakMarks();
