@@ -40,7 +40,8 @@ const timingfunc = function () {
           console.log(highlightArray)
           let word_timing = JSON.parse(content[i]);
           console.log(word_timing);
-          let text = $('read-block')[0]
+          let text = $(['read-block']);
+          console.log('text is ' + text);
           highlight(text, word_timing[start], word_timing[end]);
           if (i++ < timing_arr.length) {
             setTimeout(timingfunc(i), word_timing[time] - prev_time);
@@ -89,38 +90,6 @@ const speakText = async () => {
     // Get the speech marks
     fetch(url);
     speakMarks();
-    // If you ever want to change it to add to a bucket
-    // const run = async () => {
-    //   try {
-    //     const data = await client.send(
-    //       new StartSpeechSynthesisTaskCommand(speechParams)
-    //     );
-    //     console.log(
-    //       data,
-    //       "Success, audio file added to " + speechParams.OutputS3BucketName
-    //     );
-    //     let requestId = data.SynthesisTask.TaskId;
-    //     console.log("The request ID is " + requestId);
-    //     const retrieveAudioParams = {
-    //       TaskId: " " /* required */,
-    //     };
-    //     retrieveAudioParams.TaskId = requestId.toString();
-    //     console.log(
-    //       "This is the retrival params " + retrieveAudioParams.TaskId
-    //     );
-    //     client.getSpeechSynthesisTask(
-    //       retrieveAudioParams,
-    //       function (err, data) {
-    //         if (err)
-    //           console.log(err, err.stack, AWS.Response); // an error occurred
-    //         else console.log("Successful Response: " + data); // successful response
-    //       }
-    //     );
-    //   } catch (err) {
-    //     console.log("Error putting object", err);
-    //   }
-    // };
-    // run();
 
     // Load the URL of the voice recording into the browser
     document.getElementById("audioSource").src = url;
@@ -158,22 +127,7 @@ const speakMarks = async () => {
         // content.each()
         console.log(content);
         highlightArray = content
-        //init highlight timing function
-//         let prev_time = 0;
-//         let i = 0;
-//         const timingfunc = function () {
-//           console.log("time to highlight");
-//           console.log(content[0]);
-//           console.log(highlightArray)
-//           let word_timing = JSON.parse(content[i]);
-//           console.log(word_timing);
-//           let text = $('read-block')[0].
-//           highlight(text, word_timing[start], word_timing[end]);
-//           if (i++ < timing_arr.length) {
-//             setTimeout(timingfunc(i), word_timing[time] - prev_time);
-//             prev_time = word_timing[i];
-//             i++;
-//           }
+        timingfunc(i);
         };
 
 
@@ -198,7 +152,6 @@ $("[btn]").on("click", function (event) {
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
-    timingfunc(i)
 //     This is where the highlight func should be 
   });
   speakText();
