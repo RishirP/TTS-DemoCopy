@@ -110,7 +110,7 @@ const speakMarks = async () => {
         // content.each()
         console.log(content);
         highlightArray = content
-        timingfunc(i);
+//         timingfunc(i);
         };
 
 
@@ -136,23 +136,25 @@ $("[btn]").on("click", function (event) {
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
 //     This is where the highlight func should be
+    
     //init highlight timing function
 let prev_time = 0;
 let i = 0;
+//  where text is highlighted   
 const timingfunc = function () {
-          console.log("time to highlight");
-          console.log(content[0]);
-          console.log(highlightArray)
-          let word_timing = JSON.parse(content[i]);
-          console.log(word_timing);
-          let text = $(['read-block'].text();
-          console.log('text is ' + text);
-          readBlockElement.html(highlight(text, word_timing[start], word_timing[end]);
-          if (i++ < timing_arr.length) {
-            setTimeout(timingfunc(i), word_timing[time] - prev_time);
-            prev_time = word_timing[i];
-            i++;
-          }
+console.log("time to highlight");
+console.log(content[0]);
+console.log(highlightArray)
+let word_timing = JSON.parse(content[i]);
+console.log(word_timing);
+let text = $(['read-block'].text();
+console.log('text is ' + text);
+readBlockElement.html(highlight(text, word_timing[start], word_timing[end]);
+if (i++ < timing_arr.length) {
+ setTimeout(timingfunc(i), word_timing[time] - prev_time);
+ prev_time = word_timing[i];
+ i++;
+ }
     timingfunc(i)
   });
   speakText();
