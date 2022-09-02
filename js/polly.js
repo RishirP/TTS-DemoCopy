@@ -22,7 +22,7 @@ import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-id
 import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-let highlightArray = [];
+let content
 
 const highlight = (text, from, to) => {
   let replacement = highlightBackground(text.slice(from, to));
@@ -30,7 +30,28 @@ const highlight = (text, from, to) => {
 };
 const highlightBackground = (sample) =>
   `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
-  
+
+// //init highlight timing function
+// let prev_time = 0;
+// let i = 0;
+// //  where text is highlighted
+// const timingfunc = async function () {
+//   console.log("time to highlight");
+//   // console.log(content[0]);
+//   console.log(content);
+//   let word_timing = JSON.parse(content[i]);
+//   console.log(word_timing);
+//   let readBlock = $("read-block");
+//   let text = readBlock.text();
+//   console.log("text is " + text);
+//   readBlock.html(highlight(text, word_timing[start], word_timing[end]));
+//   if (i++ < timing_arr.length) {
+//     setTimeout(timingfunc(i), word_timing[time] - prev_time);
+//     prev_time = word_timing[i];
+//     i++;
+//   }
+// };
+
 // btn.addEventListener("click", speakText())
 
 const client = new Polly({
@@ -106,13 +127,30 @@ const speakMarks = async () => {
         let content = replacedData.split(/\r?\n/);
         content.pop();
         // This line below will give you an example of the object where the data can be extracted
-        // console.log(JSON.parse(content[0]));
+        console.log(JSON.parse(content[0]));
         // content.each()
         console.log(content);
-        highlightArray = content
-//         timingfunc(i);
-        };
-
+        //init highlight timing function
+let prev_time = 0;
+let i = 0;
+//  where text is highlighted
+const timingfunc =  function () {
+  console.log("time to highlight");
+  // console.log(content[0]);
+  console.log(content);
+  let word_timing = JSON.parse(content[i]);
+  console.log(word_timing);
+  let readBlock = $("read-block").text();
+  let text = readBlock.text();
+  console.log("text is " + text);
+  readBlock.html(highlight(text, word_timing.start, word_timing.end));
+  if (i++ < content.length) {
+    setTimeout(timingfunc(i), word_timing.time - prev_time);
+    prev_time = content[i];
+    i++;
+  }
+};
+timingfunc(i)
 
       });
   } catch (err) {
@@ -135,32 +173,13 @@ $("[btn]").on("click", function (event) {
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
-//     This is where the highlight func should be
-    
-    //init highlight timing function
-let prev_time = 0;
-let i = 0;
-//  where text is highlighted   
-const timingfunc = function () {
-  console.log(readBlock)
-console.log("time to highlight");
-console.log(content[0]);
-console.log(highlightArray)
-let word_timing = JSON.parse(content[i]);
-console.log(word_timing);
-let text = readBlock.text();
-console.log('text is ' + text);
-readBlock.html(highlight(text, word_timing[start], word_timing[end]);
-if (i++ < timing_arr.length) {
- setTimeout(timingfunc(i), word_timing[time] - prev_time);
- prev_time = word_timing[i];
- i++;
- }
-    timingfunc(i)
+    //     This is where the highlight func should be
   });
   speakText();
   speakMarks();
 });
+
+$("#audioPlayback").on("play", timingfunc(i));
 
 // Expose the function to the browser
 window.speakText = speakText;
