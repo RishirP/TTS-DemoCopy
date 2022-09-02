@@ -148,7 +148,7 @@ console.log(content[0]);
 console.log(highlightArray)
 let word_timing = JSON.parse(content[i]);
 console.log(word_timing);
-let text = $(['read-block'].text();
+let text = readBlock.text();
 console.log('text is ' + text);
 readBlock.html(highlight(text, word_timing[start], word_timing[end]);
 if (i++ < timing_arr.length) {
