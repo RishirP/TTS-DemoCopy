@@ -42,7 +42,7 @@ const timingfunc = function () {
           console.log(word_timing);
           let text = $(['read-block'].text();
           console.log('text is ' + text);
-          readBlockElement.highlight(text, word_timing[start], word_timing[end]);
+          readBlockElement.html(highlight(text, word_timing[start], word_timing[end]);
           if (i++ < timing_arr.length) {
             setTimeout(timingfunc(i), word_timing[time] - prev_time);
             prev_time = word_timing[i];
