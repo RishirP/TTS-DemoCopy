@@ -142,7 +142,7 @@ let prev_time = 0;
 let i = 0;
 //  where text is highlighted   
 const timingfunc = function () {
-  console.log(readBlockElement)
+  console.log(readBlock)
 console.log("time to highlight");
 console.log(content[0]);
 console.log(highlightArray)
