@@ -141,22 +141,26 @@ const speakMarks = async () => {
         // console.log(JSON.parse(content[0]));
         // content.each()
         console.log(content);
+        highlightArray = content
         //init highlight timing function
         let prev_time = 0;
         let i = 0;
-
         const timingfunc = function () {
           console.log("time to highlight");
           console.log(content[0]);
+          console.log(highlightArray)
           let word_timing = JSON.parse(content[i]);
           console.log(word_timing);
-          highlight(readBlockText, word_timing[start], word_timing[end]);
+          let text = $('read-block')[0].
+          highlight(text, word_timing[start], word_timing[end]);
           if (i++ < timing_arr.length) {
             setTimeout(timingfunc(i), word_timing[time] - prev_time);
             prev_time = word_timing[i];
             i++;
           }
         };
+        timingfunc(i)
+
       });
   } catch (err) {
     console.log("Error", err);
@@ -178,9 +182,9 @@ $("[btn]").on("click", function (event) {
     speechParams.Text = readBlockText;
     speechParams2.Text = readBlockText;
     console.log(readBlockText);
-    timingfunc(i);
   });
   speakText();
+  speakMarks();
 });
 
 // Expose the function to the browser
