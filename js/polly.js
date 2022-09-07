@@ -36,6 +36,8 @@ const highlightBackground = (sample) =>
 
 //  where text is highlighted
 const timingfunc = async function () {
+  let prev_time = 0;
+let i = 0;
   console.log("time to highlight");
   // Changes the wordtiming array into the speech marks data array 
   let word_timing = highlightArray
@@ -50,11 +52,13 @@ const timingfunc = async function () {
     let readBlockElement = $(this);
     let text = readBlockElement.text();
   console.log("text is " + text);
-  readBlock.html(highlight(text, word_timing.start, word_timing.end));
-  if (i++ < timing_arr.length) {
-    setTimeout(timingfunc(i), word_timing.time - prev_time);
+  console.log(word_timing[i].start, word_timing[i].end)
+  readBlock.html(highlight(text, word_timing[i].start, word_timing[i].end));
+  if (i < word_timing.length) {
+    setTimeout(timingfunc(i), word_timing[i].time - prev_time);
     prev_time = word_timing[i];
     i++;
+    timingfunc(i)
   }
 });
 };
@@ -170,8 +174,7 @@ $("[btn]").on("click", function (event) {
 
 $("#audioPlayback").on("play", timingfunc)
 //   //init highlight timing function
-// let prev_time = 0;
-// let i = 0;
+
 // //  where text is highlighted
 // const timingfunc = async function () {
 //   console.log("time to highlight");
