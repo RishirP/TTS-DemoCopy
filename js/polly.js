@@ -19,10 +19,11 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
-import { Polly, StartSpeechSynthesisTaskCommand } from "@aws-sdk/client-polly";
+import { Polly} from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-let content
+let content = [];
+let highlightArray = [];
 
 const highlight = (text, from, to) => {
   let replacement = highlightBackground(text.slice(from, to));
@@ -31,26 +32,32 @@ const highlight = (text, from, to) => {
 const highlightBackground = (sample) =>
   `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
 
-// //init highlight timing function
-// let prev_time = 0;
-// let i = 0;
-// //  where text is highlighted
-// const timingfunc = async function () {
-//   console.log("time to highlight");
-//   // console.log(content[0]);
-//   console.log(content);
-//   let word_timing = JSON.parse(content[i]);
-//   console.log(word_timing);
-//   let readBlock = $("read-block");
-//   let text = readBlock.text();
-//   console.log("text is " + text);
-//   readBlock.html(highlight(text, word_timing[start], word_timing[end]));
-//   if (i++ < timing_arr.length) {
-//     setTimeout(timingfunc(i), word_timing[time] - prev_time);
-//     prev_time = word_timing[i];
-//     i++;
-//   }
-// };
+//init highlight timing function
+
+//  where text is highlighted
+const timingfunc = async function () {
+  console.log("time to highlight");
+  // Changes the wordtiming array into the speech marks data array 
+  let word_timing = highlightArray
+  console.log(word_timing);
+  // Grabs text from nearest play button
+  let readBlock = $(this)
+    .closest("[read-block-container]")
+    .find("[read-block]");
+  console.log(readBlock);
+  // For each readblock add highlight functionality
+  readBlock.each(function (index) {
+    let readBlockElement = $(this);
+    let text = readBlockElement.text();
+  console.log("text is " + text);
+  readBlock.html(highlight(text, word_timing.start, word_timing.end));
+  if (i++ < timing_arr.length) {
+    setTimeout(timingfunc(i), word_timing.time - prev_time);
+    prev_time = word_timing[i];
+    i++;
+  }
+});
+};
 
 // btn.addEventListener("click", speakText())
 
@@ -127,32 +134,14 @@ const speakMarks = async () => {
         let content = replacedData.split(/\r?\n/);
         content.pop();
         // This line below will give you an example of the object where the data can be extracted
-        console.log(JSON.parse(content[0]));
+        // console.log(JSON.parse(content[0]));
         // content.each()
         console.log(content);
-        //init highlight timing function
-let prev_time = 0;
-let i = 0;
-//  where text is highlighted
-const timingfunc =  function () {
-  console.log("time to highlight");
-  // console.log(content[0]);
-  console.log(content);
-  let word_timing = JSON.parse(content[i]);
-  console.log(word_timing);
-  let readBlock = $("read-block").text();
-  let text = readBlock.text();
-  console.log("text is " + text);
-  readBlock.html(highlight(text, word_timing.start, word_timing.end));
-  if (i++ < content.length) {
-    setTimeout(timingfunc(i), word_timing.time - prev_time);
-    prev_time = content[i];
-    i++;
-  }
-};
-timingfunc(i)
-
-      });
+        for (let i = 0; i < content.length; i++) {
+          highlightArray.push(JSON.parse(content[i]));
+        };
+      console.log(highlightArray);
+    });
   } catch (err) {
     console.log("Error", err);
     document.getElementById("result").innerHTML = err;
@@ -179,7 +168,26 @@ $("[btn]").on("click", function (event) {
   speakMarks();
 });
 
-$("#audioPlayback").on("play", timingfunc(i));
+$("#audioPlayback").on("play", timingfunc)
+//   //init highlight timing function
+// let prev_time = 0;
+// let i = 0;
+// //  where text is highlighted
+// const timingfunc = async function () {
+//   console.log("time to highlight");
+//   let word_timing = highlightArray
+//   console.log(word_timing);
+//   let readBlock = $("read-block");
+//   let text = readBlock.text();
+//   console.log("text is " + text);
+//   readBlock.html(highlight(text, word_timing[start], word_timing[end]));
+//   if (i++ < timing_arr.length) {
+//     setTimeout(timingfunc(i), word_timing[time] - prev_time);
+//     prev_time = word_timing[i];
+//     i++;
+//   }
+//   timingfunc(i)
+// };
 
 // Expose the function to the browser
 window.speakText = speakText;
