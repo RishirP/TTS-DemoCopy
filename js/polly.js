@@ -17,12 +17,15 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 // snippet-start:[Polly.JavaScript.BrowserExample.completeV3]
 // snippet-start:[Polly.JavaScript.BrowserExample.configV3]
 
+// Import statements
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
-import { Polly} from "@aws-sdk/client-polly";
+import { Polly } from "@aws-sdk/client-polly";
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
 
-let content = [];
+// Global variables
+let prev_time = 0;
+let i = 0;
 let highlightArray = [];
 
 const highlight = (text, from, to) => {
@@ -35,32 +38,29 @@ const highlightBackground = (sample) =>
 //init highlight timing function
 
 //  where text is highlighted
-const timingfunc = async function () {
-  let prev_time = 0;
-let i = 0;
-  console.log("time to highlight");
-  // Changes the wordtiming array into the speech marks data array 
-  let word_timing = highlightArray
+const timingfunc = function () {
+  console.log("time to highlight " + prev_time);
+  // Changes the wordtiming array into the speech marks data array
+  let word_timing = highlightArray;
   console.log(word_timing);
   // Grabs text from nearest play button
   let readBlock = $(this)
     .closest("[read-block-container]")
     .find("[read-block]");
-  console.log(readBlock);
+  console.log('The read block is' + readBlock);
   // For each readblock add highlight functionality
   readBlock.each(function (index) {
     let readBlockElement = $(this);
     let text = readBlockElement.text();
-  console.log("text is " + text);
-  console.log(word_timing[i].start, word_timing[i].end)
-  readBlock.html(highlight(text, word_timing[i].start, word_timing[i].end));
-  if (i < word_timing.length) {
-    setTimeout(timingfunc(i), word_timing[i].time - prev_time);
-    prev_time = word_timing[i];
-    i++;
-    timingfunc(i)
-  }
-});
+    console.log("text is " + text);
+    console.log(word_timing[i].start, word_timing[i].end);
+    readBlock.html(highlight(text, word_timing[i].start, word_timing[i].end));
+    if (i++ < word_timing.length) {
+      setTimeout( function(){timingfunc()}, word_timing[i - 1].time - prev_time);
+      prev_time = word_timing[i].time;
+      i++;
+    }
+  });
 };
 
 // btn.addEventListener("click", speakText())
@@ -143,9 +143,9 @@ const speakMarks = async () => {
         console.log(content);
         for (let i = 0; i < content.length; i++) {
           highlightArray.push(JSON.parse(content[i]));
-        };
-      console.log(highlightArray);
-    });
+        }
+        console.log(highlightArray);
+      });
   } catch (err) {
     console.log("Error", err);
     document.getElementById("result").innerHTML = err;
@@ -172,7 +172,7 @@ $("[btn]").on("click", function (event) {
   speakMarks();
 });
 
-$("#audioPlayback").on("play", timingfunc)
+$("#audioPlayback").on("play", timingfunc);
 //   //init highlight timing function
 
 // //  where text is highlighted
