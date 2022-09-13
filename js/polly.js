@@ -62,8 +62,9 @@ const timingfunc = function (i,readBlockElement) {
 
   //call timing function on next word
   if (i++ < highlightArray.length) {
-    setTimeout( function(){timingfunc(i,readBlockElement)}, word_timing.time - prev_time);
-    prev_time = word_timing.time;
+    let next_time = highlightArray[i].time;
+    setTimeout( function(){timingfunc(i,readBlockElement)}, next_time - word_timing.time);
+    //prev_time = word_timing.time;
   }
 };
 
