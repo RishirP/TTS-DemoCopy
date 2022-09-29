@@ -2753,6 +2753,37 @@
                 <img src="./gad7_files/partner_logo.png">
                 <button onclick="popoutopen(&#39;cancel&#39;);" class="cancel inline white">X </button>
             </div>
+            <div style="position: absolute;right:0px;top:70px;
+                display:flex;flex-wrap:wrap;flex-direction:column;max-width:200px;
+                padding:10px;"
+            >
+                <button id="synthesize-btn" class="button newbutton">Synthesize Audio</button>
+                <button id="audio-processing"
+                        type="button"
+                        class="button hide newbutton"
+                        disabled
+                >
+                    <i class="fa fa-spinner fa-spin"></i> PROCESSING AUDIO
+                </button>
+                <div>
+                    <button id="play-btn" style="width:100px;margin-bottom:16px;" class="button newbutton hide">
+                        <i class="fas fa-play"></i>
+                        <span style="margin-left:5px;">Play</span>
+                    </button>
+                    <button id="resume-btn" style="width:100px;margin-bottom:16px;" class="button newbutton hide">
+                        <i class="fas fa-play"></i>
+                        <span style="margin-left:5px;">Play</span>
+                    </button>
+                    <button id="pause-btn" style="width:100px;margin-bottom:16px;" class="button newbutton hide">
+                        <i class="fas fa-pause"></i>
+                        <span style="margin-left:5px;">Pause</span>
+                    </button>
+                </div>
+                <button id="stop-btn" style="width:100px;margin-bottom:16px;" class="button newbutton hide">
+                    <i class="fas fa-stop"></i>
+                    <span style="margin-left:5px;">Stop</span>
+                </button>
+            </div>
             <div class="assessbody">
                 <h4 class="patientname">River S.</h4>
                 <h1 class="assessmentname">General Anxiety Disorder-7</h1>
@@ -2770,23 +2801,12 @@
                         <div class="clearfix"></div>
                     </div>
                     <select> </select>
-                    <div class="controls">
-                    <!-- <button id="play" type="submit">Play</button> -->
-                    </div>
-                    <div>
-                        <button id="synthesize-btn" class="button">Synthesize</button>
-                        <button id="play-btn" class="button">Play</button>
-                    </div>
 
                     <div read-block-container class="question assessment-cover-page">
                         <span class="grey" style="font-size:14px;">Assessment <b style="color:#FF5900;">1 of
                                 10</b></span>
-                                <button btn >Synthesize</button>
                                     <!-- Speak Text function -->
-                                    <p id="result-1">Enter text above then click Synthesize</p>
-                                  <audio id="audioPlayback-1" controls>
-                                    <source id="audioSource-1" type="audio/mp3" src="">
-                                  </audio>
+
                               
                         <h2>Let's Get Started!</h2>
                         <p read-block>

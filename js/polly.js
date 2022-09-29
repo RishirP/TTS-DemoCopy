@@ -19,13 +19,18 @@ Follow the steps in https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-
 
 // Import statements
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
+window.CognitoIdentityClient = CognitoIdentityClient;
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+window.fromCognitoIdentityPool = fromCognitoIdentityPool;
 import { Polly } from "@aws-sdk/client-polly";
+window.Polly = Polly;
 import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";
-import {resolve} from "../webpack.config";
+window.getSynthesizeSpeechUrl = getSynthesizeSpeechUrl;
+
 
 const POLLY_VOICE_ID = "Matthew";
-const POLLY_SAMPLE_RATE = "16000";
+const POLLY_SAMPLE_RATE = "22050";
+const MAX_SYNTH_LENGTH = 1000;
 
 window.identifyQuestionBlocks = function(){
   $('.question').each(function(i){
@@ -46,17 +51,27 @@ window.identifyReadBlocks = function(){
 }
 
 // Global variables
-let prev_time = 0;
-let audioData = {};
+window.audioData = {};
+
+//below variables used to keep track of audio state and switching between states
+const AUDIO_STATE_PAUSED = 'paused';
+const AUDIO_STATE_STOPPED = 'stopped';
+const AUDIO_STATE_PLAYING = 'playing';
+window.ttsAudioState = {
+  read_container_id: null,
+  read_block_index: null,
+  curr_read_index: null,
+  audio_data: null,
+  audio_state: null
+};
 
 const highlight = (text, from, to) => {
   let replacement = highlightBackground(text.slice(from, to));
   return text.substring(0, from) + replacement + text.substring(to);
 };
 const highlightBackground = (sample) =>
-  `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
+    `<span class='highlighted'style="background-color:yellow;">${sample}</span>`;
 
-//init highlight timing function
 /**
  * highlight text in given readBlockElement
  *
@@ -69,6 +84,21 @@ const highlightBackground = (sample) =>
 const timingfunc = function (i,readBlockElement,highlightArray) {
   if( !$.isPlainObject(readBlockElement) ){
     readBlockElement = $(readBlockElement); //convert to jQuery object
+  }
+
+  //handle pause and stopped states
+  if( ttsAudioState.audio_state === AUDIO_STATE_PAUSED ){
+    ttsAudioState.audio_data.audio_player.pause(); //pause audio
+    ttsAudioState.curr_read_index = i;
+    updateTtsControls();
+    return; //stop next word highlight;
+  }else if( ttsAudioState.audio_state === AUDIO_STATE_STOPPED ){
+    ttsAudioState.audio_data.audio_player.pause(); //stop audio
+    ttsAudioState.audio_data.audio_player.currentTime = 0; //set position to start of audio
+    ttsAudioState.audio_data.read_block.text(ttsAudioState.audio_data.org_text);
+    ttsAudioState.curr_read_index = 0;
+    updateTtsControls();
+    return; //stop next word highlight;
   }
 
   // Changes the wordtiming array into the speech marks data array
@@ -156,7 +186,7 @@ const speakMarks = async (audio_url, read_container, read_block, params_speech_m
       audioData[read_container_id] = [];
     }
     //save data for later use
-    audioData[read_container_id].push({'read_block': read_block, 'audio_url': audio_url, 'speech_marks_arr': highlightArray});
+    audioData[read_container_id].push({'read_block': read_block, 'org_text': read_block.text(), 'audio_url': audio_url, 'speech_marks_arr': highlightArray});
 
     console.log('marks data processed..');
 
@@ -166,41 +196,8 @@ const speakMarks = async (audio_url, read_container, read_block, params_speech_m
   }
 };
 
-// Instead of #play, change to play attribute
-console.log($(["btn"]));
-$("[btn]").on("click", function (event) {
-  event.preventDefault();
-  let readBlock = $(this)
-    .closest("[read-block-container]")
-    .find("[read-block]");
-  console.log(readBlock);
-  readBlock.each(function (index) {
-    let readBlockElement = $(this);
-    let readBlockText = readBlockElement.text();
-    speechParams.Text = readBlockText;
-    speechParams2.Text = readBlockText;
-    console.log(readBlockText);
-    //     This is where the highlight func should be
-  });
-  speakText();
-});
-
-$("#audioPlayback").on("play", function(){
-    prev_time = 0;
-    // Grabs text from nearest play button
-    let readBlock = $(this)
-        .closest("[read-block-container]")
-        .find("[read-block]");
-    timingfunc(0,readBlock[0]);
-});
-$("#audioPlayback").on("ended", function(){
-  console.log('audio ended');
-  console.log(this);
-});
-
-window.getSynthesizedAudio = async function(){
+window.getSynthesizedAudio = async function(readContainer){
   //get visible read blocks
-  let readContainer =  $('body').find('.question:visible');
   let readBlock = readContainer.find("[read-block]");
 
   //loop through each read block and get the synthesized audio data from polly
@@ -234,19 +231,55 @@ window.getSynthesizedAudio = async function(){
     console.log('WAIT COMPLETED');
   }
 
-  document.getElementById("result").innerHTML = "Speech ready to play.";
+  console.log("Speech ready to play for container.");
 }
 
-$('#synthesize-btn').on('click', function(){
-  getSynthesizedAudio();
+$('#synthesize-btn').on('click', async function(){
+  $(this).addClass('hide');
+  let audio_processing_btn = $('#audio-processing');
+  audio_processing_btn.removeClass('hide');
+  let read_containers = $('body').find('.question');
+  let read_containers_length = read_containers.length;
+  let synth_length = Math.min(MAX_SYNTH_LENGTH,read_containers_length); //set amount of read block that get synthesized
+  for( let i=0; i < synth_length; i++ ){
+    await getSynthesizedAudio($(read_containers[i]));
+  }
+  console.log('All Question Audio Synthesized');
+  audio_processing_btn.addClass('hide');
+  updateTtsControls(); //show audio controls
 });
 
 $('#play-btn').on('click',function(){
-  console.log('playing..');
   let readContainer =  $('body').find('.question:visible');
   let i = 0;
-  playAudioClip(readContainer.prop('id'),i);
+  console.log('playing ' + readContainer.prop('id') + ' ..');
+  ttsAudioState.audio_state = AUDIO_STATE_PLAYING; //set to play audio state
+  playAudioClip(readContainer.prop('id'),i); //play audio from start of container
 });
+
+$('#pause-btn').on('click',function(){
+  console.log('pausing..');
+  ttsAudioState.audio_state = AUDIO_STATE_PAUSED; //set to pause audio state
+});
+
+$('#resume-btn').on('click',function(){
+  console.log('resume..');
+  ttsAudioState.audio_state = AUDIO_STATE_PLAYING; //set to play audio state
+  ttsAudioState.audio_data.audio_player.play(); //play audio
+});
+
+$('#stop-btn').on('click',function(){
+  console.log('stopping..');
+  let prev_state = ttsAudioState.audio_state;
+  ttsAudioState.audio_state = AUDIO_STATE_STOPPED; //set to stopped audio state
+  if( prev_state ===  AUDIO_STATE_PAUSED ){
+    ttsAudioState.audio_data.audio_player.currentTime = 0; //set position to start of audio
+    ttsAudioState.audio_data.read_block.text(ttsAudioState.audio_data.org_text);
+    ttsAudioState.curr_read_index = 0;
+    updateTtsControls();
+  }
+});
+
 
 window.playAudioClip = function(read_container_id,i){
   //get voice data for container from audio data array
@@ -262,27 +295,71 @@ window.playAudioClip = function(read_container_id,i){
   let highlight_arr = audio_data.speech_marks_arr;
   let org_read_block_text = read_block.text();
 
+  //initialize audio state
+  ttsAudioState.read_container_id = read_container_id;
+  ttsAudioState.read_block_index = i;
+  ttsAudioState.audio_data = audio_data;
+  ttsAudioState.curr_read_index = 0;
+
   //setup play and end events
   audio.onplay = function(event){
-    prev_time = 0;
-    timingfunc(0,read_block,highlight_arr);
+    timingfunc(ttsAudioState.curr_read_index
+        ,ttsAudioState.audio_data.read_block
+        ,ttsAudioState.audio_data.speech_marks_arr);
+    updateTtsControls();
   }
   audio.onended = function(event){
     //reset read block to original (un highlighted) text
     read_block.text(org_read_block_text);
 
     //play next audio clip if there is more audio data
-    //console.log('audio at index ' + i + ' ended');
-    //console.log(audio_data_container.length);
     i++;
     if( i < audio_data_container.length ){
       //console.log('playing next clip.. ' + i);
-      playAudioClip(read_container_id,i);
+      playAudioClip(read_container_id, i);
+    }else{
+      //set audio state to stopped
+      ttsAudioState.audio_state = AUDIO_STATE_STOPPED;
+      updateTtsControls();
     }
   }
 
   //play audio
-  audio.play();
+  if( ttsAudioState.audio_state === AUDIO_STATE_PLAYING ) {
+    audio.play();
+  }else{
+    //update controls if not in play state
+    //this can happen when pause/stopped is clicked on last word in a read block
+    updateTtsControls();
+  }
+}
+
+/**
+ * Hide and show relevant controls based on audio state
+ */
+window.updateTtsControls = function(){
+  if( ttsAudioState.audio_state === AUDIO_STATE_PLAYING ){
+    $('#pause-btn').removeClass('hide');
+    $('#stop-btn').removeClass('hide');
+    $('#resume-btn').addClass('hide');
+    $('#play-btn').addClass('hide');
+  }else if( ttsAudioState.audio_state === AUDIO_STATE_PAUSED ){
+    $('#resume-btn').removeClass('hide');
+    $('#stop-btn').removeClass('hide');
+    $('#play-btn').addClass('hide');
+    $('#pause-btn').addClass('hide');
+  }else if( ttsAudioState.audio_state === AUDIO_STATE_STOPPED ){
+    $('#play-btn').removeClass('hide');
+    $('#resume-btn').addClass('hide');
+    $('#pause-btn').addClass('hide');
+    $('#stop-btn').addClass('hide');
+  }else {
+    //default
+    $('#play-btn').removeClass('hide');
+    $('#resume-btn').addClass('hide');
+    $('#pause-btn').addClass('hide');
+    $('#stop-btn').addClass('hide');
+  }
 }
 
 // Expose the function to the browser
@@ -293,4 +370,4 @@ window.speakMarks = speakMarks;
 $(document).ready(function(){
   identifyQuestionBlocks();
   identifyReadBlocks();
-})
+});
